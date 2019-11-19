@@ -1,0 +1,36 @@
+nav {
+    padding: 1em;
+}
+
+table {
+    margin: auto;
+    background-color: lightgray;
+    padding: 1%;
+    border-radius: 5px;
+}
+
+.input_date {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.input_button {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 0.6em;
+}
+
+.input_button:hover {
+    border-color: blueviolet;
+    background-color: lightcyan;
+}
+
+.input_button:active {
+    background-color: lightskyblue;
+}
+
+#send {
+    margin-top: 10px;
+    margin-left: 100%;
+}

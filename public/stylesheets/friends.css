@@ -1,0 +1,55 @@
+.list_friends,
+.search_friends,
+.my_friends {
+    background-color: lightgray;
+    padding: 1%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.search_friends {
+    text-align: center;
+}
+
+.friend_request {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.search_form,
+.friend {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search_friends>form {
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+}
+
+.list_friends>.friend_request:not(:first-child) {
+    border-top: 1px solid white;
+    width: 100%;
+}
+
+.my_friends>.friend:not(:first-child) {
+    border-top: 1px solid white;
+    width: 100%;
+}
+
+@media only screen and (max-width: 550px) {
+    .list_friends,
+    .search_friends,
+    .my_friends,
+    .friend_request,
+    .friend {
+        display: flex;
+        flex-direction: column;
+    }
+}

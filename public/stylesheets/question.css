@@ -1,0 +1,27 @@
+.friends {
+    background-color: lightgray;
+    padding: 1%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.friend {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.right {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
+.friends>.friend:not(:first-child) {
+    border-top: 1px solid white;
+    width: 100%;
+}

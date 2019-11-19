@@ -1,0 +1,19 @@
+### Intellij ###
+*.iml
+
+## Directory-based project format:
+.idea/
+/out/
+.idea_modules/
+
+
+### Node ###
+node_modules
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed

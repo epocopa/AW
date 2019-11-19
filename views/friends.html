@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YOLO - Amigos</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="friends.css">
+</head>
+
+<body>
+    <header>
+        <img class="img_log" src="resources/images/yolo.png" alt="logo de yolo" height="150px" width="150px">
+        <nav>
+            <!-- TODO: EL NAV LUEGO HAY QUE CAMBIARLO -->
+            <a class="nav_a" href="/profile.html">Perfil</a>
+            <a class="nav_a" href="/friends.html">Amigos</a>
+            <a class="nav_a" href="/questions.html">Preguntas</a>
+            <a class="nav_a" href="">Desconectar</a>
+            <div class="nav_user">
+                <img class="nav_user_image" src="resources/images/profile_logo.png" alt="imagen de usuario" height="42.2px" width="42.2px">
+                <div class="nav_user_points">50 pts</div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <h1>Solicitudes de amistad</h1>
+        <div class="list_friends">
+            <div class="friend_request">
+                <img src="resources/images/friend.png" alt="">
+                <h3>Bruja Piruja</h3>
+                <div>
+                    <button class="acept_button">Aceptar</button>
+                    <button class="cancel_button">Rechazar</button>
+                </div>
+            </div>
+            <div class="friend_request">
+                <img src="resources/images/friend.png" alt="">
+                <h3>Stuart Minion</h3>
+                <div>
+                    <button class="acept_button">Aceptar</button>
+                    <button class="cancel_button">Rechazar</button>
+                </div>
+            </div>
+        </div>
+
+        <h1>Búsqueda de amigos</h1>
+        <div class="search_friends">
+            <!-- TODO: EL FORM LUEGO HAY QUE CAMBIARLO -->
+            <form class="search_form" action="/search_users.html" method="GET">
+                <label>Buscar por nombre: </label>
+                <input class="input_text" type="text" placeholder="Matias Gonzalez" required>
+                <button class="search_button">BUSCAR</button>
+            </form>
+        </div>
+        <h1>Mis amigos</h1>
+        <div class="my_friends">
+            <div class="friend">
+                <img src="resources/images/friend.png" alt="">
+                <h3>Mike Wazowski</h3>
+            </div>
+            <div class="friend">
+                <img src="resources/images/friend.png" alt="">
+                <h3>Lucia Pinhead</h3>
+            </div>
+            <div class="friend">
+                <img src="resources/images/friend.png" alt="">
+                <h3>Marco Polo</h3>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
