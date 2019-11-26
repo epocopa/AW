@@ -81,8 +81,30 @@ class DAOUsers {
 	}
 
 	//modificar datos de usuario existente
-	modificarUsuario(){
-
+	modificarUsuario(user, callback){
+		this.pool.getConnection(function(err, connection){
+			if(err){
+				callback(err);
+			}else{
+				const sql = "UPDATE user SET email = ? pass= ? fullname= ? sex = ? birthdate = ? `image = ? points = ?";
+				connection.query(sql, [
+					user.email, 
+					user.pass, 
+					user.fullname, 
+					user.sex, 
+					user.birthdate, 
+					user.image, 
+					user.points
+				], 
+					function(err, result){
+						if(err){
+							callback(err);
+						}else{
+							callback(null);
+						}
+					}
+			}
+		});
 	}
 }
 
