@@ -86,7 +86,7 @@ class DAOUsers {
 			if(err){
 				callback(err);
 			}else{
-				const sql = "UPDATE user SET email = ? pass= ? fullname= ? sex = ? birthdate = ? `image = ? points = ?";
+				const sql = "UPDATE user SET email = ? pass= ? fullname= ? sex = ? birthdate = ? image = ? points = ?";
 				connection.query(sql, [
 					user.email, 
 					user.pass, 
@@ -102,7 +102,7 @@ class DAOUsers {
 						}else{
 							callback(null);
 						}
-					}
+					});
 			}
 		});
 	}
