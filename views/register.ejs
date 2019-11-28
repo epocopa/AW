@@ -1,38 +1,38 @@
 <%- include('header'); -%>
 <main>
     <h1>Nuevo Usuario</h1>
-    <form name='f' action="login" method='POST'>
+    <form action="register" method="POST">
         <table>
             <tr>
                 <td>Email:</td>
-                <td><input class="input_text" type='text' name='email' value=''></td>
+                <td><input class="input_text" type='text' name='email' value='' required></td>
             </tr>
             <tr>
                 <td>Contraseña:</td>
-                <td><input class="input_text" type='password' name='password' /></td>
+                <td><input class="input_text" type='password' name='password' required/></td>
             </tr>
             <tr>
                 <td>Nombre completo:</td>
-                <td><input class="input_text" type='text' name='fullname' /></td>
+                <td><input class="input_text" type='text' name='fullname' required/></td>
             </tr>
             <tr>
                 <td>Sexo:</td>
                 <td>
-                    <input class="input_radio" type="radio" name='sex' value="male" />Masculino
-                    <input class="input_radio" type="radio" name='sex' value="female" />Femenino
-                    <input class="input_radio" type="radio" name='sex' value="other" />Otro
+                    <input class="input_radio" type="radio" name='sex' value="male"/>Masculino
+                    <input class="input_radio" type="radio" name='sex' value="female"/>Femenino
+                    <input class="input_radio" type="radio" name='sex' value="other"/>Otro
                 </td>
             </tr>
             <tr>
                 <td>Fecha de nacimiento:</td>
-                <td><input class="input_date" type='date' name='birthdate' /></td>
+                <td><input class="input_date" type='date' name='birthdate' required/></td>
             </tr>
             <tr>
                 <td>Imagen de perfil:</td>
-                <td><input class="input_image" type='file' accept="image/png, image/jpeg" name='image' /></td>
+                <td><input class="input_image" type='file' accept="image/png, image/jpeg" name='photo'/></td>
             </tr>
             <tr>
-                <td><input class="input_button" id="send" type="submit" value="Enviar" /></td>
+                <td><input class="input_button" id="send" type="submit" value="Enviar"/></td>
             </tr>
         </table>
     </form>

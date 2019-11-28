@@ -60,6 +60,7 @@ INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, 
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('4', 'usuario4@ucm.es', '1234', 'Usuario4', 'H', '2019-10-11', NULL, '36');
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('5', 'usuario5@ucm.es', '1234', 'Usuario5', 'H', '2018-10-11', NULL, '76');
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('6', 'usuario6@ucm.es', '1234', 'Usuario6', 'M', '2018-12-01', NULL, '46');
+--INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES (NULL, 'prueba@ucm.es', '1234', 'Prueba', 'H', '2019-11-12', NULL, '0');
 
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('1', '2');
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('1', '3');

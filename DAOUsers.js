@@ -33,8 +33,9 @@ class DAOUsers {
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(err);
+                console.log("AQUI");
             } else {
-                const sql = "INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?)";
+                const sql = "INSERT INTO user (email, pass, fullname, sex, birthdate, image, points) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 connection.query(sql, [
                         user.email,
                         user.pass,
@@ -48,7 +49,7 @@ class DAOUsers {
                         if (err) {
                             callback(err);
                         } else {
-                            callback(null);
+                            callback(null, result);
                         }
                     });
             }

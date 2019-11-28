@@ -2,6 +2,7 @@ const config = require("../config");
 const DAOUsers = require("../DAOUsers");
 const express = require("express");
 const mysql = require("mysql");
+const multer = require("multer");
 
 const router = express.Router();
 
@@ -24,7 +25,8 @@ router.post("/login", function(req, res) {
             res.status(500);
             res.render("login", { title: "login", errorMsg: "Error interno de acceso a la BD" });
         } else if (ok) {
-            //req.session.currentUser = req.body.email;
+            req.session.currentUser = req.body.email;
+            /* TODO: hacer render junto con los datos del usuario registrado */
             res.render("profile");
         } else {
             res.status(200);
@@ -33,12 +35,37 @@ router.post("/login", function(req, res) {
     });
 });
 
-router.get('/register', function(req, res) {
+router.get("/register", function(req, res) {
     res.render("register", { title: "register" });
 });
 
-router.post('/register', function(req, res) {
-    res.send(req.body);
+router.post("/register", function(req, res) {
+    let user = {
+        email: req.body.email ,
+        password: req.body.password,
+        fullname: req.body.fullname,
+        sex: req.body.sex,
+        birthdate: req.body.birthdate,
+        profile_image: req.body.profile_image,
+        points: 0
+    }
+
+    daoUsers.crearUsuario(user, function(err){
+        if(err){
+            console.log("ERROR");
+            //res.render("500");
+        }else{
+            res.render("profile",{
+                email: req.body.email ,
+                password: req.body.password,
+                fullname: req.body.fullname,
+                sex: req.body.sex,
+                birthdate: req.body.birthdate,
+                photo: req.body.photo,
+                points: 0}
+            );
+        }
+    });
 });
 
 module.exports = { router, pool };
