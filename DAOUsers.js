@@ -9,13 +9,13 @@ class DAOUsers {
 	identificarUsuario(email, pw, callback){
 		this.pool.getConnection(function(err, connection){
 			if(err){
-				callback(err);
+				callback(err, null);
 			}else{
-				const sql = "SELECT COUNT(*) FROM user WHERE email = ? AND pw = ?";
+				const sql = "SELECT COUNT(*) FROM user WHERE email = ? AND pass = ?";
 				connection.query(sql, [email, pw], function(err, result){
 					connection.release();
 					if(err){
-						callback(err);
+						callback(err, null);
 					}else{
 						callback(null, result);
 					}
