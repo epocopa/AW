@@ -58,6 +58,8 @@ INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, 
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('2', 'usuario2@ucm.es', '1234', 'Usuario2', 'M', '2019-11-21', NULL, '30');
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('3', 'usuario3@ucm.es', '1234', 'Usuario3', 'H', '2019-10-21', NULL, '12');
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('4', 'usuario4@ucm.es', '1234', 'Usuario4', 'H', '2019-10-11', NULL, '36');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('5', 'usuario5@ucm.es', '1234', 'Usuario5', 'H', '2018-10-11', NULL, '76');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('6', 'usuario6@ucm.es', '1234', 'Usuario6', 'M', '2018-12-01', NULL, '46');
 
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('1', '2');
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('1', '3');
@@ -69,3 +71,13 @@ INSERT INTO `friend` (`usera`, `userb`) VALUES ('3', '1');
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('3', '2');
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('4', '1');
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('4', '2');
+
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('4', '3');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('5', '3');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('6', '3');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('1', '6');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('2', '6');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('3', '6');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('4', '6');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('1', '5');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('2', '5');
