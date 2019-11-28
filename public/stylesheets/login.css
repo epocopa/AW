@@ -28,3 +28,8 @@ table {
     margin-top: 10px;
     margin-left: 100%;
 }
+
+.error_msg {
+    text-align: center;
+    color: red;
+}
