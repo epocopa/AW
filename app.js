@@ -3,14 +3,12 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const mysqlSession = require("express-mysql-session");
 const session = require("express-session");
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 
 const app = express();
-const MySQLStore = mysqlSession(session);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,15 +20,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//permite almacenar la informacion de sesion en la BD
-const sessionStore = new MySQLStore(userRouter.pool);
-
 //middleware que contiene los datos de sesion correspondientes al cliente actual
 const middlewareSession = session({
     saveUninitialized: false, //indica que no se cree ninguna sesión para los clientes que no estén en la BD de sesiones
     secret: "Xenial Xerus", //cadena que se utiliza para firmar el SID que se envía al cliente.
     resave: false, //fuerza a que se guarde, o no, el contenido en la sesión en la BD
-    store: sessionStore
 });
 
 app.use(middlewareSession);

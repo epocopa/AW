@@ -2,7 +2,6 @@ const config = require("../config");
 const DAOUsers = require("../DAOUsers");
 const express = require("express");
 const mysql = require("mysql");
-const multer = require("multer");
 
 const router = express.Router();
 
@@ -26,8 +25,22 @@ router.post("/login", function(req, res) {
             res.render("login", { title: "login", errorMsg: "Error interno de acceso a la BD" });
         } else if (ok) {
             req.session.currentUser = req.body.email;
-            /* TODO: hacer render junto con los datos del usuario registrado */
-            res.render("profile");
+			/* TODO: hacer render junto con los datos del usuario registrado */
+			daoUsers.mostrarPerfil(req.session.currentUser, function(err, result){
+				if(err){
+					console.log("ERROR");
+					//res.render("500");
+				}else{
+					res.render("profile",{
+						email: result[0].email ,
+						password: result[0].password,
+						fullname: result[0].fullname,
+						sex: result[0].sex,
+						birthdate: result[0].birthdate,
+						profile_image: result[0].profile_image,
+						points: result[0].points});
+				}
+			});
         } else {
             res.status(200);
             res.render("login", { title: "login", errorMsg: "Email y/o contraseña no válidos" });
@@ -52,7 +65,7 @@ router.post("/register", function(req, res) {
 
     daoUsers.crearUsuario(user, function(err){
         if(err){
-            console.log("ERROR");
+            console.log("ERROR"); //TODO: hay que quitar el mensaje
             //res.render("500");
         }else{
             res.render("profile",{

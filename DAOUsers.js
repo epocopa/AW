@@ -68,17 +68,7 @@ class DAOUsers {
                     if (err) {
                         callback(err);
                     } else {
-                        let user = {
-                            id: result.id,
-                            email: result.email,
-                            fullname: result.fullname,
-                            sex: result.sex,
-                            birthdate: result.birthdate,
-                            image: result.image,
-                            points: result.points
-                        };
-
-                        callback(null, user);
+                        callback(null, result);
                     }
                 });
             }
