@@ -33,7 +33,6 @@ class DAOUsers {
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(err);
-                console.log("AQUI");
             } else {                
                 const sql = "INSERT INTO user (email, pass, fullname, sex, birthdate, image, points) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 connection.query(sql, [
@@ -68,6 +67,7 @@ class DAOUsers {
                     if (err) {
                         callback(err);
                     } else {
+                        result[0].birthdate = result[0].birthdate.toLocaleDateString();
                         callback(null, result);
                     }
                 });
@@ -82,8 +82,8 @@ class DAOUsers {
                 callback(err);
             } else {
                 /*TODO */
-                //UPDATE user SET email = "usuario1@ucm.es", pass= 1234, fullname= "USUARIOCAMBIADO", sex = "male", birthdate = null, image = "", points = 0 WHERE id_user = 1;
-                const sql = "UPDATE user SET email = ?, pass= ?, fullname= ?, sex = ?, birthdate = ?, image = ?, points = ? WHERE id_user = ?";
+                //UPDATE user SET email = "usuario1@ucm.es", pass= 1234, fullname= "USUARIOCAMBIADO", sex = "male", birthdate = null, image = "" WHERE id_user = 1;
+                const sql = "UPDATE user SET email = ?, pass= ?, fullname= ?, sex = ?, birthdate = ?, image = ? WHERE id_user = ?";
                 connection.query(sql, [
                         user.email,
                         user.pass,
@@ -91,7 +91,7 @@ class DAOUsers {
                         user.sex,
                         user.birthdate,
                         user.image,
-                        user.points
+                        user.id_user
                     ],
                     function(err, result) {
                         connection.release();

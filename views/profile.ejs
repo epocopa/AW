@@ -19,10 +19,10 @@
             <a class="nav_a" href="/profile.html">Perfil</a>
             <a class="nav_a" href="/friends.html">Amigos</a>
             <a class="nav_a" href="/questions.html">Preguntas</a>
-            <a class="nav_a" href="">Desconectar</a>
+            <a class="nav_a" href="logout">Desconectar</a>
             <div class="nav_user">
                 <img class="nav_user_image" src="/images/profile_logo.png" alt="imagen de usuario" height="42.2px" width="42.2px">
-                <div class="nav_user_points"><%= points %></div>
+                <div class="nav_user_points"><%= user.points %></div>
             </div>
         </nav>
     </header>
@@ -30,10 +30,10 @@
         <h1>Tu perfil</h1>
         <div class="user">
             <div id="user_image" class="user_info"><img src="/images/profile_logo.png" alt="imagen de usuario"></div>
-            <div id="user_name" class="user_info"><%= fullname %></div>
-            <div id="user_years" class="user_info"><%= birthdate %></div>
-            <div id="user_gender" class="user_info"><%= sex %></div>
-            <div id="user_points" class="user_info"><%= points %> puntos</div>
+            <div id="user_name" class="user_info"><%= user.fullname %></div>
+            <div id="user_years" class="user_info"><%= age %> años</div>
+            <div id="user_gender" class="user_info"><%= user.sex %></div>
+            <div id="user_points" class="user_info"><%= user.points %> puntos</div>
             <div id="user_modify" class="user_info">
                 <form action="modify"><!-- TODO: PONER ACCION AL BOTON -->
                     <input class="modify_button" type="submit" value="Modificar perfil"/>
