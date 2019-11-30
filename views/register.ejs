@@ -1,7 +1,7 @@
 <%- include('header'); -%>
 <main>
-    <h1>Nuevo Usuario</h1>
-    <form action="register" method="POST">
+    <h1><%= head %></h1>
+    <form action="<%= action %>" method="POST">
         <table>
             <tr>
                 <td>Email:</td>
@@ -18,9 +18,9 @@
             <tr>
                 <td>Sexo:</td>
                 <td>
-                    <input class="input_radio" type="radio" name='sex' value="male"/>Masculino
-                    <input class="input_radio" type="radio" name='sex' value="female"/>Femenino
-                    <input class="input_radio" type="radio" name='sex' value="other"/>Otro
+                    <input class="input_radio" type="radio" name='sex' value="M"/>Masculino
+                    <input class="input_radio" type="radio" name='sex' value="F"/>Femenino
+                    <input class="input_radio" type="radio" name='sex' value="O"/>Otro
                 </td>
             </tr>
             <tr>

@@ -33,10 +33,11 @@
             <div id="user_name" class="user_info"><%= fullname %></div>
             <div id="user_years" class="user_info"><%= birthdate %></div>
             <div id="user_gender" class="user_info"><%= sex %></div>
-            <div id="user_points" class="user_info"><%= points %></div>
+            <div id="user_points" class="user_info"><%= points %> puntos</div>
             <div id="user_modify" class="user_info">
-                <form action=""></form> <!-- TODO: PONER ACCION AL BOTON -->
-                <input class="modify_button" type="submit" value="Modificar perfil"/>
+                <form action="modify"><!-- TODO: PONER ACCION AL BOTON -->
+                    <input class="modify_button" type="submit" value="Modificar perfil"/>
+                </form> 
             </div>
         </div>
     </main>
