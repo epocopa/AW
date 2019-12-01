@@ -1,4 +1,4 @@
-<%- include('header'); -%>
+<%- include('header_loged'); -%>
 <main>
     <h1>Modificar Usuario</h1>
     <form method="POST">
@@ -8,8 +8,8 @@
                 <td><input class="input_text" type='text' name='email' value='<%= user.email %>' required></td>
             </tr>
             <tr>
-                <td>Contraseña:</td>
-                <td><input class="input_text" type='password' name='password' value='<%= user.pass %>' required /></td>
+                <td>Contraseña actual:</td>
+                <td><input class="input_text" type='password' name='password' value='' required /></td>
             </tr>
             <tr>
                 <td>Nombre completo:</td>
@@ -24,7 +24,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Fecha de nacimiento:</td>
+                <td>Fecha de nacimiento: </td>
                 <td><input class="input_date" type='date' name='birthdate' value='<%= user.birthdate %>' required /></td>
             </tr>
             <tr>
@@ -36,5 +36,8 @@
             </tr>
         </table>
     </form>
+    <% if (typeof errorMsg != "undefined") { %>
+        <h3 class="error_msg"><%= errorMsg %></h3>
+    <% } %>
 </main>
 <%- include('footer'); -%>

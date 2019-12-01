@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+const bcrypt = require('bcryptjs');
 
 class DAOUsers {
     constructor(pool) {
@@ -11,17 +12,15 @@ class DAOUsers {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT COUNT(*) AS count FROM user WHERE email = ? AND pass = ?";
-                connection.query(sql, [email, pw], function(err, result) {
+                const sql = "SELECT pass FROM user WHERE email = ?";
+                connection.query(sql, [email], function(err, result) {
                     connection.release();
                     if (err) {
                         callback(err, null);
                     } else {
-                        let ok = false;
-                        if (result[0].count != 0) {
-                            ok = true;
-                        }
-                        callback(null, ok);
+                        bcrypt.compare(pw, result[0].pass, function (err, res) {
+                            callback(null, res);
+                        });
                     }
                 });
             }
@@ -81,8 +80,6 @@ class DAOUsers {
             if (err) {
                 callback(err);
             } else {
-                /*TODO */
-                //UPDATE user SET email = "usuario1@ucm.es", pass= 1234, fullname= "USUARIOCAMBIADO", sex = "male", birthdate = null, image = "" WHERE id_user = 1;
                 const sql = "UPDATE user SET email = ?, pass= ?, fullname= ?, sex = ?, birthdate = ?, image = ? WHERE id_user = ?";
                 connection.query(sql, [
                         user.email,
@@ -124,13 +121,13 @@ class DAOUsers {
         });
     }
 
-    buscarUsuario(searchUser, callback) {
+    buscarUsuarios(searchUser, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT fullname FROM user WHERE fullname = ?";
-                connection.query(sql, [searchUser], function(err, result) {
+                const sql = "SELECT fullname FROM user WHERE fullname LIKE ?";
+                connection.query(sql, ['%' + searchUser + '%'], function(err, result) {
                     connection.release();
                     if (err) {
                         callback(err);
@@ -147,7 +144,7 @@ class DAOUsers {
             if (err) {
                 callback(err);
             } else {
-                const sql = " "; //TODO
+                const sql = "SELECT userb FROM friend WHERE usera = ?";
                 connection.query(sql, [id], function(err, result) {
                     connection.release();
                     if (err) {

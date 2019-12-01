@@ -1,0 +1,38 @@
+<%- include('header_loged'); -%>
+
+    <main>
+        <h1>Solicitudes de amistad</h1>
+        <div class="list_friends">
+            <% requests.forEach(function(request, i) { %>
+                <div class="friend_request">
+                    <img src="/images/friend.png">
+                    <h3><%= request %></h3>
+                    <div>
+                        <button class="acept_button">Aceptar</button>
+                        <button class="cancel_button">Rechazar</button>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+        <h1>Búsqueda de amigos</h1>
+        <div class="search_friends">
+            <form class="search_form" action="search" method="POST">
+                <label>Buscar por nombre: </label>
+                <input class="input_text input_text_search" name="text_search" type="text" placeholder="Matias Gonzalez" required>
+                <input class="input_button" type="submit" value="Buscar" />
+            </form>
+        </div>
+
+        <h1>Mis amigos</h1>
+        <div class="my_friends">
+            <% friends.forEach(function(friend, i) { %>
+                <div class="friend">
+                    <img src="/images/friend.png">
+                    <h3><%= friend %></h3>
+                </div>
+            <% }); %>
+        </div>
+    </main>
+    
+<%- include('footer'); -%>

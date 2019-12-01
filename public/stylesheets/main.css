@@ -53,6 +53,10 @@ main>h1 {
     width: 90%;
 }
 
+.input_text_search{
+    width: 40%;
+}
+
 button {
     border: 1px solid lightgray;
     border-radius: 5px;

@@ -1,0 +1,15 @@
+<%- include('header_loged'); -%>
+    <main>
+        <h1>Resultados de búsqueda: 'e'</h1>
+        <div class="search_results">
+
+            <div class="search_friend">
+                <% users.forEach(function(user, i) { %>
+                    <img src="/images/friend.png">
+                    <h3>Lucia Pinhead</h3>
+                    <button class="acept_button">Solicitar amistad</button>
+                <% }); %>
+            </div>
+        </div>
+    </main>
+<%- include('footer'); -%>

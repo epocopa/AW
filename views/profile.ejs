@@ -1,31 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>YOLO - Perfil</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/stylesheets/main.css">
-    <link rel="stylesheet" href="/stylesheets/profile.css">
-</head>
-
-<body>
-    <header>
-        <img class="img_log" src="/images/yolo.png" alt="logo de yolo" height="150px" width="150px">
-        <nav>
-            <!-- TODO: EL NAV LUEGO HAY QUE CAMBIARLO -->
-            <a class="nav_a" href="/profile.html">Perfil</a>
-            <a class="nav_a" href="/friends.html">Amigos</a>
-            <a class="nav_a" href="/questions.html">Preguntas</a>
-            <a class="nav_a" href="logout">Desconectar</a>
-            <div class="nav_user">
-                <img class="nav_user_image" src="/images/profile_logo.png" alt="imagen de usuario" height="42.2px" width="42.2px">
-                <div class="nav_user_points"><%= user.points %></div>
-            </div>
-        </nav>
-    </header>
+<%- include('header_loged'); -%>
     <main>
         <h1>Tu perfil</h1>
         <div class="user">
@@ -35,12 +8,10 @@
             <div id="user_gender" class="user_info"><%= user.sex %></div>
             <div id="user_points" class="user_info"><%= user.points %> puntos</div>
             <div id="user_modify" class="user_info">
-                <form action="modify"><!-- TODO: PONER ACCION AL BOTON -->
+                <form action="modify">
                     <input class="modify_button" type="submit" value="Modificar perfil"/>
                 </form> 
             </div>
         </div>
     </main>
-</body>
-
-</html>
+<%- include('footer'); -%>

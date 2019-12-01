@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YOLO - <%= title%></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <link rel="stylesheet" href="/stylesheets/friends.css">
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+    <link rel="stylesheet" href="/stylesheets/questions.css">
+    <link rel="stylesheet" href="/stylesheets/question.css">
+    <link rel="stylesheet" href="/stylesheets/search_users.css">
+</head>
+
+<body>
+    <header>
+        <a href="/">
+            <img class="img_log" src="/images/yolo.png" alt="logo de yolo" height="150px" width="150px">
+        </a>
+        <nav>
+            <a class="nav_a" href="/user/profile">Perfil</a>
+            <a class="nav_a" href="/user/friends">Amigos</a>
+            <a class="nav_a" href="/user/questions">Preguntas</a>
+            <a class="nav_a" href="logout">Desconectar</a>
+            <div class="nav_user">
+                <img class="nav_user_image" src="/images/profile_logo.png" alt="imagen de usuario" height="42.2px" width="42.2px">
+                <div class="nav_user_points"><%= user.points %> pts</div>
+            </div>
+        </nav>
+    </header>

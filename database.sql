@@ -1,7 +1,7 @@
 CREATE OR REPLACE TABLE user(
 	id_user INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	email VARCHAR(50),
-	pass VARCHAR(50),
+	email VARCHAR(50) UNIQUE,
+	pass VARCHAR(60),
 	fullname VARCHAR(40),
 	sex CHAR(1),
 	birthdate DATE,
@@ -54,12 +54,13 @@ CREATE OR REPLACE TABLE request(
 	PRIMARY KEY(fromUser, toUser)
 );
 
-INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('1', 'usuario1@ucm.es', '1234', 'Usuario1', 'M', '2019-11-26', NULL, '32');
-INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('2', 'usuario2@ucm.es', '1234', 'Usuario2', 'M', '2019-11-21', NULL, '30');
-INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('3', 'usuario3@ucm.es', '1234', 'Usuario3', 'H', '2019-10-21', NULL, '12');
-INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('4', 'usuario4@ucm.es', '1234', 'Usuario4', 'H', '2019-10-11', NULL, '36');
-INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('5', 'usuario5@ucm.es', '1234', 'Usuario5', 'H', '2018-10-11', NULL, '76');
-INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('6', 'usuario6@ucm.es', '1234', 'Usuario6', 'M', '2018-12-01', NULL, '46');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('1', 'usuario1@ucm.es', '$2a$06$F4zGDw1WnrDq5glibB3dK.bpdkbDQC8HdDs1KfBktds6gMqAwBgTa', 'Usuario1', 'M', '2019-11-26', NULL, '32');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('2', 'usuario2@ucm.es', '$2a$06$F4zGDw1WnrDq5glibB3dK.bpdkbDQC8HdDs1KfBktds6gMqAwBgTa', 'Usuario2', 'M', '2019-11-21', NULL, '30');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('3', 'usuario3@ucm.es', '$2a$06$F4zGDw1WnrDq5glibB3dK.bpdkbDQC8HdDs1KfBktds6gMqAwBgTa', 'Usuario3', 'H', '2019-10-21', NULL, '12');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('4', 'usuario4@ucm.es', '$2a$06$F4zGDw1WnrDq5glibB3dK.bpdkbDQC8HdDs1KfBktds6gMqAwBgTa', 'Usuario4', 'H', '2019-10-11', NULL, '36');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('5', 'usuario5@ucm.es', '$2a$06$F4zGDw1WnrDq5glibB3dK.bpdkbDQC8HdDs1KfBktds6gMqAwBgTa', 'Usuario5', 'H', '2018-10-11', NULL, '76');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('6', 'usuario6@ucm.es', '$2a$06$F4zGDw1WnrDq5glibB3dK.bpdkbDQC8HdDs1KfBktds6gMqAwBgTa', 'Usuario6', 'M', '2018-12-01', NULL, '46');
+INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('7', 'usuario7@ucm.es', '$2a$06$F4zGDw1WnrDq5glibB3dK.bpdkbDQC8HdDs1KfBktds6gMqAwBgTa', 'Usuario7', 'H', '2018-06-12', NULL, '57');
 
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('1', '2');
 INSERT INTO `friend` (`usera`, `userb`) VALUES ('1', '3');
@@ -81,3 +82,4 @@ INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('3', '6');
 INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('4', '6');
 INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('1', '5');
 INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('2', '5');
+INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('7', '1');
