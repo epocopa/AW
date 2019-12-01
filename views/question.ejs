@@ -1,31 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>YOLO - Pregunta</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="question.css">
-</head>
-
-<body>
-    <header>
-        <img class="img_log" src="resources/images/yolo.png" alt="logo de yolo" height="150px" width="150px">
-        <nav>
-            <!-- TODO: EL NAV LUEGO HAY QUE CAMBIARLO -->
-            <a class="nav_a" href="/profile.html">Perfil</a>
-            <a class="nav_a" href="/friends.html">Amigos</a>
-            <a class="nav_a" href="/questions.html">Preguntas</a>
-            <a class="nav_a" href="">Desconectar</a>
-            <div class="nav_user">
-                <img class="nav_user_image" src="resources/images/profile_logo.png" alt="imagen de usuario" height="42.2px" width="42.2px">
-                <div class="nav_user_points">50 pts</div>
-            </div>
-        </nav>
-    </header>
+<%- include('header_loged'); -%>
     <main>
         <h1>¿Nintendo Switch, PS4, o Xbox One?</h1>
         <p>No has contestado a esta pregunta</p>
@@ -62,6 +35,4 @@
             </div>
         </div>
     </main>
-</body>
-
-</html>
+<%- include('footer'); -%>

@@ -185,4 +185,19 @@ router.post("/search", redirectLogin, function (req, res, next) {
 	});
 });
 
+
+router.get('/questions', redirectLogin, function (req, res) {
+	let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
+
+	res.status(200);
+	res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
+});
+
+router.get('/create_question', redirectLogin, function (req, res) {
+	let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
+
+	res.status(200);
+	res.render("create_question", { title: "create_question", styles: estilos, user: req.session.currentUser });
+});
+
 module.exports = { router, pool };

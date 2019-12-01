@@ -43,17 +43,6 @@
     width: 100%;
 }
 
-.input_button {
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    padding: 0.6em;
-}
-
-.input_button:hover {
-    border-color: blueviolet;
-    background-color: lightcyan;
-}
-
 @media only screen and (max-width: 550px) {
     .list_friends,
     .search_friends,

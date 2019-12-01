@@ -1,0 +1,26 @@
+<%- include('header_loged'); -%>
+    <main>
+        <h1>¿Nintendo Switch, PS4, o Xbox One?</h1>
+        <div class="answers">
+            <form name='f' method='POST'>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="a" />Nintendo Switch
+                </div>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="b" />PS4
+                </div>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="c" />Xbox One
+                </div>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="d" />No me interesan los videojuegos
+                </div>
+                <div class="answer" id="other">
+                    <input class="input_radio" type="radio" name='ans' value="o" />
+                    <input class="input_text" type="text" name="other">
+                </div>
+                <input class="input_button" id="send" name="submit" type="submit" value="Responder" />
+            </form>
+        </div>
+    </main>
+<%- include('footer'); -%>

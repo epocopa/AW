@@ -1,5 +1,4 @@
 <%- include('header_loged'); -%>
-
     <main>
         <h1>Solicitudes de amistad</h1>
         <div class="list_friends">
@@ -8,8 +7,8 @@
                     <img src="/images/friend.png">
                     <h3><%= request.fullname %></h3>
                     <div>
-                        <button class="acept_button">Aceptar</button>
-                        <button class="cancel_button">Rechazar</button>
+                        <input class="input_button" id="send" name="acept" type="submit" value="Aceptar" />
+                        <input class="input_button" id="send" name="cancel" type="submit" value="Rechazar" />
                     </div>
                 </div>
             <% }); %>
@@ -34,5 +33,4 @@
             <% }); %>
         </div>
     </main>
-    
 <%- include('footer'); -%>

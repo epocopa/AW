@@ -8,6 +8,10 @@
     border-radius: 5px;
 }
 
+.add_questions{
+   text-align: center;
+}
+
 @media only screen and (max-width: 550px) {
     .selection_quests,
     .add_questions {

@@ -1,0 +1,34 @@
+<%- include('header_loged'); -%>
+    <main>
+        <h1>Crear nueva pregunta</h1>
+        <div class="add_questions">
+            <form action="add_question" method="POST">
+                <table>
+                    <tr>
+                        <td>Titulo pregunta:</td>
+                        <td><input class="input_text" type="text" name="title_question" required></td>
+                    </tr>
+                    <tr>
+                        <td> Respuesta 1:</td>
+                        <td><input class="input_text" type="text" name="option1" required></td>
+                    </tr>
+                    <tr>
+                        <td> Respuesta 2:</td>
+                        <td><input class="input_text" type="text" name="option2" required></td>
+                    </tr>
+                    <tr>
+                        <td> Respuesta 3:</td>
+                        <td><input class="input_text" type="text" name="option3" required></td>
+                    </tr>
+                    <tr>
+                        <td> Respuesta 4:</td>
+                        <td><input class="input_text" type="text" name="option4" required></td>
+                    </tr>
+                    <tr>
+                        <td><input class="input_button" id="send" name="submit" type="submit" value="Crear" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </main>
+<%- include('footer'); -%>

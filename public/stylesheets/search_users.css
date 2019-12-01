@@ -18,9 +18,16 @@
     width: 100%;
 }
 
+h3{
+    margin-right: 5em;
+}
+
 @media only screen and (max-width: 550px) {
     .search_results {
         display: flex;
+        align-items: center;
+        justify-content: center;
         flex-direction: column;
+        flex-wrap: wrap;
     }
 }

@@ -139,6 +139,8 @@ class DAOUsers {
                             }else{
                                 let result = [];
 
+                                //TODO: arreglar...
+                                
                                 result_sql1.forEach(element_sql1 => {
                                     let user;
 

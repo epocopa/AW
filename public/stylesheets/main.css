@@ -57,21 +57,22 @@ main>h1 {
     width: 40%;
 }
 
-button {
+.input_button {
+    color: black;
+    background-color: lightcyan;
+    text-decoration: none;
+    text-align: center;
     border: 1px solid lightgray;
     border-radius: 5px;
-    margin: 10px auto;
     padding: 0.6em;
-    text-align: center;
-    display: block;
 }
 
-button:hover {
+.input_button:hover {
     border-color: blueviolet;
     background-color: lightcyan;
 }
 
-button:active {
+.input_button:active {
     background-color: lightskyblue;
 }
 

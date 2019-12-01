@@ -51,22 +51,6 @@
     padding-right: 1em;
 }
 
-.modify_button {
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    padding: 0.6em;
-    text-align: center;
-}
-
-.modify_button:hover {
-    border-color: blueviolet;
-    background-color: lightcyan;
-}
-
-.modify_button:active {
-    background-color: lightskyblue;
-}
-
 @media only screen and (max-width: 800px) {
     .user {
         display: flex;
