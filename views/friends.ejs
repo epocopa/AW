@@ -6,7 +6,7 @@
             <% requests.forEach(function(request, i) { %>
                 <div class="friend_request">
                     <img src="/images/friend.png">
-                    <h3><%= request %></h3>
+                    <h3><%= request.fullname %></h3>
                     <div>
                         <button class="acept_button">Aceptar</button>
                         <button class="cancel_button">Rechazar</button>
@@ -29,7 +29,7 @@
             <% friends.forEach(function(friend, i) { %>
                 <div class="friend">
                     <img src="/images/friend.png">
-                    <h3><%= friend %></h3>
+                    <h3><%= friend.userb %></h3>
                 </div>
             <% }); %>
         </div>

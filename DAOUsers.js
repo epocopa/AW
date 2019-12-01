@@ -121,18 +121,52 @@ class DAOUsers {
         });
     }
 
-    buscarUsuarios(searchUser, callback) {
+    buscarUsuarios(id_user, searchUser, callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) {
                 callback(err);
             } else {
-                const sql = "SELECT fullname FROM user WHERE fullname LIKE ?";
-                connection.query(sql, ['%' + searchUser + '%'], function(err, result) {
-                    connection.release();
+                const sql1 = "SELECT id_user, fullname FROM user WHERE fullname LIKE ?";
+                connection.query(sql1, ['%' + searchUser + '%'], function(err, result_sql1) {
                     if (err) {
                         callback(err);
                     } else {
-                        callback(null, result);
+                        const sql2 = "SELECT userb FROM friend WHERE usera = ?";
+                        connection.query(sql2, [id_user], function(err, result_sql2){
+                            connection.release();
+                            if(err){
+                                callback(err);
+                            }else{
+                                let result = [];
+
+                                result_sql1.forEach(element_sql1 => {
+                                    let user;
+
+                                    result_sql2.forEach(element_sql2 => {
+                                        console.log("ENTRA ", element_sql1.id_user, " ",  element_sql2.userb);
+
+                                        if(element_sql1.id_user != element_sql2.userb){
+                                            user = {
+                                                fullname: element_sql1.fullname,
+                                                esAmigo: false
+                                            }
+
+                                        }else{
+                                            user = {
+                                                fullname: element_sql1.fullname,
+                                                esAmigo: true
+                                            }
+                                        }
+                                    });
+                                    
+                                    result.push(user);
+                                });
+
+                                console.log(result);
+
+                                callback(null, result);
+                            }
+                        });
                     }
                 });
             }
