@@ -83,3 +83,5 @@ INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('4', '6');
 INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('1', '5');
 INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('2', '5');
 INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('7', '1');
+
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('1', '¿Esto es una pregunta?', 'Si', 'No', 'Tal vez', 'Quizás');

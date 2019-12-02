@@ -1,5 +1,6 @@
 const config = require("../config");
 const DAOUsers = require("../DAOUsers");
+const DAOQuestions = require("../DAOQuestions");
 const express = require("express");
 const mysql = require("mysql");
 const createError = require('http-errors');
@@ -9,6 +10,7 @@ const router = express.Router();
 
 const pool = mysql.createPool(config.mysqlConfig);
 const daoUsers = new DAOUsers(pool);
+const daoQuestions = new DAOQuestions(pool);
 
 const redirectLogin = function(req, res, next) {
 	if (!req.session.currentUser) {
@@ -185,7 +187,6 @@ router.post("/search", redirectLogin, function (req, res, next) {
 	});
 });
 
-
 router.get('/questions', redirectLogin, function (req, res) {
 	let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
 
@@ -200,4 +201,32 @@ router.get('/create_question', redirectLogin, function (req, res) {
 	res.render("create_question", { title: "create_question", styles: estilos, user: req.session.currentUser });
 });
 
+
+router.post('/add_question', redirectLogin, function(req, res){
+	let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
+
+	let question = {
+		title: req.body.title_question,
+		opA: req.body.option1,
+		opB: req.body.option2,
+		opC: req.body.option3,
+		opD: req.body.optionD
+	}
+
+	daoQuestions.crearPregunta(question, function(err, result){
+		if(err){
+			next(createError(500));
+		}else{
+			res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
+		}
+	});
+});
+
 module.exports = { router, pool };
+
+/*
+TODO:
+- Cambiar consulta sql listarAmigos: muestra id y debe de mostar fullname
+- Cambiar buscarUsuarios: refactorizar el codigo con filter
+- Implementar aceptar/rechazar solicitud de amistad
+*/

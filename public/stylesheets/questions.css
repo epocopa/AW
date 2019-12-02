@@ -10,6 +10,7 @@
 
 .add_questions{
    text-align: center;
+   margin: 1em;
 }
 
 @media only screen and (max-width: 550px) {
