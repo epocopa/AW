@@ -13,172 +13,175 @@ const daoUsers = new DAOUsers(pool);
 const daoQuestions = new DAOQuestions(pool);
 
 const redirectLogin = function(req, res, next) {
-	if (!req.session.currentUser) {
-		res.redirect("login");
-	} else {
-		next();
-	}
+    if (!req.session.currentUser) {
+        res.redirect("login");
+    } else {
+        next();
+    }
 }
 
-const redirectProfile = function (req, res, next) {
-	if (req.session.currentUser) {
-		res.redirect("profile");
-	} else {
-		next();
-	}
+const redirectProfile = function(req, res, next) {
+    if (req.session.currentUser) {
+        res.redirect("profile");
+    } else {
+        next();
+    }
 }
 
 //-------------------------------------------------------------------------------------
 
-router.get('/', function (req, res, next) {
-	res.redirect("/user/login");
+router.get('/', function(req, res, next) {
+    res.redirect("/user/login");
 });
 
-router.get('/login', redirectProfile, function (req, res) {
-	let estilos = "<link rel='stylesheet' href='/stylesheets/login.css'>";
+router.get('/login', redirectProfile, function(req, res) {
+    let estilos = "<link rel='stylesheet' href='/stylesheets/login.css'>";
 
-	res.status(200);
-	res.render("login", { title: "login", styles: estilos});
+    res.status(200);
+    res.render("login", { title: "login", styles: estilos });
 });
 
-router.post("/login", redirectProfile, function (req, res, next) {
-	let estilos = "<link rel='stylesheet' href='/stylesheets/login.css'>";
+router.post("/login", redirectProfile, function(req, res, next) {
+    let estilos = "<link rel='stylesheet' href='/stylesheets/login.css'>";
 
-	daoUsers.identificarUsuario(req.body.email, req.body.password, function (err, ok) {
-		if (err) {
-			next(createError(500));
-		} else if (ok) {
-			daoUsers.mostrarPerfil(req.body.email, function (err, result) {
-				if (err) {
-					next(createError(500));
-				} else {
-					req.session.currentUser = JSON.parse(JSON.stringify(result[0]));
-					res.redirect("/user/profile")
-				}
-			});
-		} else {
-			res.status(401);
-			res.render("login", { title: "login", errorMsg: "Email y/o contraseña no válidos", styles: estilos});
-		}
-	});
+    daoUsers.identificarUsuario(req.body.email, req.body.password, function(err, ok) {
+        if (err) {
+            next(createError(500));
+        } else if (ok) {
+            daoUsers.mostrarPerfil(req.body.email, function(err, result) {
+                if (err) {
+                    next(createError(500));
+                } else {
+                    req.session.currentUser = JSON.parse(JSON.stringify(result[0]));
+                    res.redirect("/user/profile")
+                }
+            });
+        } else {
+            res.status(401);
+            res.render("login", { title: "login", errorMsg: "Email y/o contraseña no válidos", styles: estilos });
+        }
+    });
 });
 
-router.get("/register", redirectProfile,  function (req, res) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
+router.get("/register", redirectProfile, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
 
-	res.status(200);
-	res.render("register", { title: "register", styles: estilos });
+    res.status(200);
+    res.render("register", { title: "register", styles: estilos });
 });
 
-router.post("/register", redirectProfile,  function (req, res, next) {
-	bcrypt.hash(req.body.password, 6, function (err, hash) {	
-		let user = {
-			email: req.body.email,
-			password: hash,
-			fullname: req.body.fullname,
-			sex: req.body.sex,
-			birthdate: req.body.birthdate,
-			profile_image: req.body.profile_image,
-			points: 0
-		}
-		
-		daoUsers.crearUsuario(user, function (err) {
-			if (err) {
-				next(createError(500));
-			} else {
-				res.redirect("/user/login");
-			}
-		});
-	});	
+router.post("/register", redirectProfile, function(req, res, next) {
+    bcrypt.hash(req.body.password, 6, function(err, hash) {
+        let user = {
+            email: req.body.email,
+            password: hash,
+            fullname: req.body.fullname,
+            sex: req.body.sex,
+            birthdate: req.body.birthdate,
+            profile_image: req.body.profile_image,
+            points: 0
+        }
+
+        daoUsers.crearUsuario(user, function(err) {
+            if (err) {
+                next(createError(500));
+            } else {
+                res.redirect("/user/login");
+            }
+        });
+    });
 });
 
-router.get("/modify", redirectLogin, function (req, res) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
+router.get("/modify", redirectLogin, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
 
-	res.status(200);	
-	res.render("modify", { title: "modify", user: req.session.currentUser, styles: estilos });
+    res.status(200);
+    res.render("modify", { title: "modify", user: req.session.currentUser, styles: estilos });
 });
 
-router.post("/modify", redirectLogin, function (req, res, next) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
+router.post("/modify", redirectLogin, function(req, res, next) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
 
-	bcrypt.compare(req.body.password, req.session.currentUser.pass, function (err, result) {
-		if (!result) {
-			res.status(401);
-			res.render("modify", { title: "login", user: req.session.currentUser ,errorMsg: "Email y/o contraseña no válidos", styles: estilos });
-		} else {
-			req.session.currentUser.email = req.body.email || req.session.currentUser.email;
-			req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
-			req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
-			req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
-			req.session.currentUser.profile_image = req.body.profile_image || req.session.currentUser.profile_image;
+    bcrypt.compare(req.body.password, req.session.currentUser.pass, function(err, result) {
+        if (!result) {
+            res.status(401);
+            res.render("modify", { title: "login", user: req.session.currentUser, errorMsg: "Email y/o contraseña no válidos", styles: estilos });
+        } else {
+            req.session.currentUser.email = req.body.email || req.session.currentUser.email;
+            req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
+            req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
+            req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
+            req.session.currentUser.profile_image = req.body.profile_image || req.session.currentUser.profile_image;
 
-			daoUsers.modificarUsuario(req.session.currentUser, function (err) {
-				if (err) {
-					next(createError(500));
-				} else {
-					res.redirect("profile");
-				}
-			});
-		}	
-	});
+            daoUsers.modificarUsuario(req.session.currentUser, function(err) {
+                if (err) {
+                    next(createError(500));
+                } else {
+                    res.redirect("profile");
+                }
+            });
+        }
+    });
 });
 
-router.get("/profile", redirectLogin, function (req, res) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/profile.css">';
+router.get("/profile", redirectLogin, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/profile.css">';
 
-	res.status(200);
-	var diff = Date.now() - new Date(req.session.currentUser.birthdate);
-	var age_temp = new Date(diff);
-	var age = Math.abs(age_temp.getUTCFullYear() - 1970);
+    res.status(200);
+    var diff = Date.now() - new Date(req.session.currentUser.birthdate);
+    var age_temp = new Date(diff);
+    var age = Math.abs(age_temp.getUTCFullYear() - 1970);
 
-	res.render("profile", { title: "profile", user: req.session.currentUser, age,
-	styles: estilos});
+    res.render("profile", {
+        title: "profile",
+        user: req.session.currentUser,
+        age,
+        styles: estilos
+    });
 });
 
-router.get("/logout", redirectLogin, function (req, res) {
-	req.session.destroy(function(err) {
-		if (err) {
-			res.redirect("profile");
-		}
-		res.clearCookie("connect.sid");
-		res.redirect("/user/login");
-	})
+router.get("/logout", redirectLogin, function(req, res) {
+    req.session.destroy(function(err) {
+        if (err) {
+            res.redirect("profile");
+        }
+        res.clearCookie("connect.sid");
+        res.redirect("/user/login");
+    })
 });
 
-router.get("/friends", redirectLogin, function (req, res) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/friends.css">';
+router.get("/friends", redirectLogin, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/friends.css">';
 
-	res.status(200);
+    res.status(200);
 
-	daoUsers.listarSolicitudes(req.session.currentUser.id_user , function (err, result_solicitudes) {
-		if(err){
-			next(createError(500));
-		}else{
-			daoUsers.listarAmigos(req.session.currentUser.id_user , function (err, result_amigos) {
-				if (err) {
-					next(createError(500));
-				} else {
-					res.render("friends", { title: "friends", user: req.session.currentUser, requests: result_solicitudes, friends: result_amigos, styles: estilos});
-				}
-			});
-		}
-	});
+    daoUsers.listarSolicitudes(req.session.currentUser.id_user, function(err, result_solicitudes) {
+        if (err) {
+            next(createError(500));
+        } else {
+            daoUsers.listarAmigos(req.session.currentUser.id_user, function(err, result_amigos) {
+                if (err) {
+                    next(createError(500));
+                } else {
+                    res.render("friends", { title: "friends", user: req.session.currentUser, requests: result_solicitudes, friends: result_amigos, styles: estilos });
+                }
+            });
+        }
+    });
 });
 
-router.get('/search', redirectLogin, function (req, res) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
-console.log("ESTA", req.param.text_search);
+router.get('/search', redirectLogin, function(req, res, next) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
 
-	daoUsers.buscarUsuarios(req.session.currentUser.id_user, req.param.text_search, function (err, result){
-		if(err){
-			console.log(err);
-			
-			next(createError(500));
-		}else{
-			res.render("search_users", { title: "search_users", users: result, user: req.session.currentUser, styles: estilos, search: req.param.text_search});
-		}
-	});
+    daoUsers.buscarUsuarios(req.session.currentUser.id_user, req.query.text_search, function(err, result) {
+        if (err) {
+            console.log(err);
+
+            next(createError(500));
+        } else {
+            res.render("search_users", { title: "search_users", users: result, user: req.session.currentUser, styles: estilos, search: req.query.text_search });
+        }
+    });
 });
 
 // router.post("/search", redirectLogin, function (req, res, next) {
@@ -187,7 +190,7 @@ console.log("ESTA", req.param.text_search);
 // 	daoUsers.buscarUsuarios(req.session.currentUser.id_user, req.body.text_search, function (err, result){
 // 		if(err){
 // 			console.log(err);
-			
+
 // 			next(createError(500));
 // 		}else{
 // 			res.render("search_users", { title: "search_users", users: result, user: req.session.currentUser, styles: estilos, search: req.body.text_search});
@@ -195,63 +198,65 @@ console.log("ESTA", req.param.text_search);
 // 	});
 // });
 
-router.get('/questions', redirectLogin, function (req, res) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
+router.get('/questions', redirectLogin, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
 
-	res.status(200);
-	res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
+    res.status(200);
+    res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
 });
 
-router.get('/create_question', redirectLogin, function (req, res) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
+router.get('/create_question', redirectLogin, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
 
-	res.status(200);
-	res.render("create_question", { title: "create_question", styles: estilos, user: req.session.currentUser });
+    res.status(200);
+    res.render("create_question", { title: "create_question", styles: estilos, user: req.session.currentUser });
 });
 
 
-router.post('/add_question', redirectLogin, function(req, res){
-	let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
+router.post('/add_question', redirectLogin, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
 
-	let question = {
-		title: req.body.title_question,
-		opA: req.body.option1,
-		opB: req.body.option2,
-		opC: req.body.option3,
-		opD: req.body.optionD
-	}
+    let question = {
+        title: req.body.title_question,
+        opA: req.body.option1,
+        opB: req.body.option2,
+        opC: req.body.option3,
+        opD: req.body.optionD
+    }
 
-	daoQuestions.crearPregunta(question, function(err){
-		if(err){
-			next(createError(500));
-		}else{
-			res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
-		}
-	});
+    daoQuestions.crearPregunta(question, function(err) {
+        if (err) {
+            next(createError(500));
+        } else {
+            res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
+        }
+    });
 });
 
-router.post('/request_friend', redirectLogin, function(req, res){
-	let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
+router.post('/request_friend', redirectLogin, function(req, res, next) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
 
-	daoUsers.solicitarAmistad(req.session.currentUser.id_user, req.body.ident, function(err){
-		console.log(req.session.currentUser.id_user, " ", req.body.ident);
-		
-		if(err){
-			next(createError(500));
-		}else{
-			res.redirect("search");
-		}
-	});
+    daoUsers.solicitarAmistad(req.session.currentUser.id_user, req.body.ident, function(err) {
+        console.log(req.session.currentUser.id_user, " ", req.body.ident);
+
+        if (err) {
+            console.log(err);
+
+            next(createError(500));
+        } else {
+            res.redirect("search?text_search=" + req.body.query_string);
+        }
+    });
 });
 
 module.exports = { router, pool };
 
 /*
 TODO:
-- Cambiar consulta sql listarAmigos: muestra id y debe de mostar fullname
+- DONE Cambiar consulta sql listarAmigos: muestra id y debe de mostar fullname
 - Implementar aceptar/rechazar solicitud de amistad
 - Implementar enviar solicitud de amistad
 - NO mostrar el boton de solicitar amistad a:
-	+ el propio usuario registrado
+	+ DONE el propio usuario registrado
 	+ aquellos usuarios que ya se les ha enviado una solicitud (tabla request)
 */

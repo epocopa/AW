@@ -10,6 +10,7 @@
                         <!--TODO: indicar action del form-->
 						<form action="request_friend" method="POST">
 							<input type="hidden" name="ident" value="<%= user.id %>">
+							<input type="hidden" name="query_string" value="<%= search %>">
                             <input class="input_button" type="submit" value="Solicitar amistad" />
                         </form>
                     <% }%>

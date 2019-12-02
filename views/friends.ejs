@@ -18,7 +18,7 @@
         <div class="search_friends">
             <form class="search_form" action="search" method="GET">
                 <label>Buscar por nombre: </label>
-                <input class="input_text input_text_search" name="text_search" type="text" placeholder="Matias Gonzalez" required>
+                <input class="input_text input_text_search" name="text_search" type="text" placeholder="Introduce un nombre" required>
                 <input class="input_button" type="submit" value="Buscar" />
             </form>
         </div>
@@ -28,7 +28,7 @@
             <% friends.forEach(function(friend, i) { %>
                 <div class="friend">
                     <img src="/images/friend.png">
-                    <h3><%= friend.userb %></h3>
+                    <h3><%= friend.fullname %></h3>
                 </div>
             <% }); %>
         </div>
