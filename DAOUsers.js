@@ -136,34 +136,34 @@ class DAOUsers {
                             if(err){
                                 callback(err);
                             }else{
-                                let result = [];
+								let result = [];
 
-                                //TODO: arreglar...
-                                
                                 result_sql1.forEach(element_sql1 => {
                                     let user;
-
+                                    let entra = false;
                                     result_sql2.forEach(element_sql2 => {
-                                        console.log("ENTRA ", element_sql1.id_user, " ",  element_sql2.userb);
+                                        if(!entra){
+                                            if(element_sql1.id_user != element_sql2.userb){
+                                                user = {
+													id: element_sql1.id_user,
+                                                    fullname: element_sql1.fullname,
+                                                    esAmigo: false
+                                                }
 
-                                        if(element_sql1.id_user != element_sql2.userb){
-                                            user = {
-                                                fullname: element_sql1.fullname,
-                                                esAmigo: false
-                                            }
+                                            }else{
+                                                user = {
+													id: element_sql1.id_user,
+                                                    fullname: element_sql1.fullname,
+                                                    esAmigo: true
+                                                }
 
-                                        }else{
-                                            user = {
-                                                fullname: element_sql1.fullname,
-                                                esAmigo: true
+                                                entra = true;
                                             }
                                         }
                                     });
                                     
                                     result.push(user);
                                 });
-
-                                console.log(result);
 
                                 callback(null, result);
                             }
@@ -190,7 +190,25 @@ class DAOUsers {
                 });
             }
         });
-    }
+	}
+	
+	solicitarAmistad(id_user, id_request, callback){
+		this.pool.getConnection(function(err, connection){
+			if(err){
+				callback(err);
+			}else{
+				const sql = "INSERT INTO request (fromUser, toUser) VALUES (?, ?)";
+				connection.query(sql, [id_user, id_request], function(err, result){
+					connection.release();
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
+                    }
+				});
+			}
+		});
+	}
 }
 
 module.exports = DAOUsers;

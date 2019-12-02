@@ -8,7 +8,8 @@
                     <h3><%= user.fullname %></h3>
                     <% if (!user.esAmigo) { %>
                         <!--TODO: indicar action del form-->
-                        <form action="" method="POST">
+						<form action="request_friend" method="POST">
+							<input type="hidden" name="ident" value="<%= user.id %>">
                             <input class="input_button" type="submit" value="Solicitar amistad" />
                         </form>
                     <% }%>

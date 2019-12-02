@@ -168,24 +168,32 @@ router.get("/friends", redirectLogin, function (req, res) {
 
 router.get('/search', redirectLogin, function (req, res) {
 	let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
+console.log("ESTA", req.param.text_search);
 
-	res.status(200);
-	res.render("search_users", { title: "search_users", styles: estilos });
-});
-
-router.post("/search", redirectLogin, function (req, res, next) {
-	let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
-
-	daoUsers.buscarUsuarios(req.session.currentUser.id_user, req.body.text_search, function (err, result){
+	daoUsers.buscarUsuarios(req.session.currentUser.id_user, req.param.text_search, function (err, result){
 		if(err){
 			console.log(err);
 			
 			next(createError(500));
 		}else{
-			res.render("search_users", { title: "search_users", users: result, user: req.session.currentUser, styles: estilos, search: req.body.text_search});
+			res.render("search_users", { title: "search_users", users: result, user: req.session.currentUser, styles: estilos, search: req.param.text_search});
 		}
 	});
 });
+
+// router.post("/search", redirectLogin, function (req, res, next) {
+// 	let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
+
+// 	daoUsers.buscarUsuarios(req.session.currentUser.id_user, req.body.text_search, function (err, result){
+// 		if(err){
+// 			console.log(err);
+			
+// 			next(createError(500));
+// 		}else{
+// 			res.render("search_users", { title: "search_users", users: result, user: req.session.currentUser, styles: estilos, search: req.body.text_search});
+// 		}
+// 	});
+// });
 
 router.get('/questions', redirectLogin, function (req, res) {
 	let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
@@ -213,11 +221,25 @@ router.post('/add_question', redirectLogin, function(req, res){
 		opD: req.body.optionD
 	}
 
-	daoQuestions.crearPregunta(question, function(err, result){
+	daoQuestions.crearPregunta(question, function(err){
 		if(err){
 			next(createError(500));
 		}else{
 			res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
+		}
+	});
+});
+
+router.post('/request_friend', redirectLogin, function(req, res){
+	let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
+
+	daoUsers.solicitarAmistad(req.session.currentUser.id_user, req.body.ident, function(err){
+		console.log(req.session.currentUser.id_user, " ", req.body.ident);
+		
+		if(err){
+			next(createError(500));
+		}else{
+			res.redirect("search");
 		}
 	});
 });
@@ -227,6 +249,9 @@ module.exports = { router, pool };
 /*
 TODO:
 - Cambiar consulta sql listarAmigos: muestra id y debe de mostar fullname
-- Cambiar buscarUsuarios: refactorizar el codigo con filter
 - Implementar aceptar/rechazar solicitud de amistad
+- Implementar enviar solicitud de amistad
+- NO mostrar el boton de solicitar amistad a:
+	+ el propio usuario registrado
+	+ aquellos usuarios que ya se les ha enviado una solicitud (tabla request)
 */
