@@ -232,8 +232,6 @@ router.get('/search', redirectLogin, function(req, res, next) {
 
     daoUsers.buscarUsuarios(req.session.currentUser.id_user, req.query.text_search, function(err, result) {
         if (err) {
-            console.log(err);
-
             next(createError(500));
         } else {
             res.render("search_users", { title: "search_users", users: result, user: req.session.currentUser, styles: estilos, search: req.query.text_search });
@@ -244,9 +242,23 @@ router.get('/search', redirectLogin, function(req, res, next) {
 router.get('/questions', redirectLogin, function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
 
-    res.status(200);
-    res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
+    daoQuestions.generarAleatorias(function(err, result){
+        if(err){
+            next(createError(500));
+        }else{
+            res.status(200);
+            res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser, quests: result });
+        }
+    });
 });
+
+router.get('/question', redirectLogin, function(req, res) {
+    let estilos = '<link rel="stylesheet" href="/stylesheets/question.css">';
+
+    res.status(200);
+    res.render("question", { title: "question", styles: estilos, user: req.session.currentUser });
+});
+
 
 router.get('/create_question', redirectLogin, function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
@@ -293,6 +305,7 @@ module.exports = { router, pool };
 /*
 TODO:
 - DONE (Dani): Hacer un get de perfil de usuario
-- (Pablo): Seleccionar una de las preguntas de la selección aleatoria mencionada anteriormente
+- DOING (Pablo): Seleccionar una de las preguntas de la selección aleatoria mencionada anteriormente
 - (Juntos que no separados): Responder una pregunta para sí mismo
+- Corregir FALLO BD: en la tabla answer tenemos puesto como PK la pregunta.
 */

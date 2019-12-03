@@ -2,23 +2,11 @@
     <main>
         <h1>Preguntas seleccionadas aleatoriamente</h1>
         <div class="selection_quests">
+        <% quests.forEach(function(question) { %>
             <div class="quest">
-                ¿Cuál es la peor película de las historia?
+                <a class="a_quest" href="/user/question"><%= question.title %></a>
             </div>
-            <div class="quest">
-                ¿En qué escuela primaria estudiaste?
-            </div>
-            <div class="quest">
-                ¿Play o Nintendo?
-            </div>
-            <div class="quest">
-                ¿Cuál es tu plato favorito?
-            </div>
-            <div class="quest">
-                ¿Cuál es el personaje más irritante de Juego de Tronos?
-            </div>
-        </div>
-
+        <% }); %>
         <h1>¡Añade tus preguntas!</h1>
         <div class="add_questions">
             <a class="input_button" href="/user/create_question">Crear nueva pregunta</a>

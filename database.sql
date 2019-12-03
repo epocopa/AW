@@ -11,7 +11,7 @@ CREATE OR REPLACE TABLE user(
 
 CREATE OR REPLACE TABLE question(
 	id_question INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	title VARCHAR(50),
+	title VARCHAR(100),
 	opA VARCHAR(50),
 	opB VARCHAR(50),
 	opC VARCHAR(50),
@@ -85,3 +85,13 @@ INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('2', '5');
 INSERT INTO `request` (`fromUser`, `toUser`) VALUES ('7', '1');
 
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('1', '¿Esto es una pregunta?', 'Si', 'No', 'Tal vez', 'Quizás');
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('2', '¿Quién fue el ganador del Oscar al mejor actor en 2016?', 'Leonardo DiCaprio', 'Nicolas Cage', 'Brad Pitt', 'Antonio Banderas');
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('3', '¿Cuál es la capital de Chile?', 'Santiago de Chile', 'Madrid', 'Otawa', 'Cali');
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('4', '¿Cuál es la primera potencia mundial actualmente?', 'China', 'Rusia', 'EEUU', 'Madagascar');
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('5', '¿Quién es el hombre con más dinero del mundo?', 'Steve Jobs', 'Jeff Bezos', 'Ines Arrimadas', 'Valle Inclán');
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('6', '¿Cuál es el país más grande del mundo?', 'Rusia', 'Mongolia', 'India', 'Jamaica');
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('7', '¿Cuántos viajes hizo Cristóbal Colón a las Indias?', 'Tres', 'Dos', 'Cuatro', 'Diez');
+INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('8', '¿Cuántas veces parpadea una persona por semana?', '25k veces', '10k veces', '4k veces', '13k veces');
+
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '1', 'a', NULL);
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('2', '2', 'b', NULL);
