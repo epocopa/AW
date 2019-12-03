@@ -17,9 +17,13 @@ class DAOUsers {
 					if (err) {
 						callback(err, null);
 					} else {
-						bcrypt.compare(pw, result[0].pass, function(err, res) {
-							callback(null, res);
-						});
+						if (!result[0]) {
+							callback(null, false);
+						} else {
+							bcrypt.compare(pw, result[0].pass, function(err, res) {
+								callback(null, res);
+							});
+						}
 					}
 				});
 			}
@@ -73,6 +77,26 @@ class DAOUsers {
 		});
 	}
 
+	//Página de perfil de usuario
+	mostrarPerfilPorId(id, callback) {
+		this.pool.getConnection(function (err, connection) {
+			if (err) {
+				callback(err);
+			} else {
+				const sql = "SELECT * FROM user WHERE id_user = ?";
+				connection.query(sql, [id], function (err, result) {
+					connection.release();
+					if (err) {
+						callback(err);
+					} else {
+						result[0].birthdate = result[0].birthdate.toLocaleDateString();
+						callback(null, result);
+					}
+				});
+			}
+		});
+	}
+
 	//Modificación de perfil
 	modificarUsuario(user, callback) {
 		this.pool.getConnection(function(err, connection) {
@@ -107,7 +131,7 @@ class DAOUsers {
 			if (err) {
 				callback(err);
 			} else {
-				const sql = "SELECT fullname FROM user JOIN request WHERE id_user = fromUser AND toUser = ?";
+				const sql = "SELECT fullname, fromUser FROM user JOIN request ON id_user = fromUser AND toUser = ?";
 				connection.query(sql, [id], function(err, result) {
 					connection.release();
 					if (err) {
@@ -132,44 +156,55 @@ class DAOUsers {
 					} else {
 						const sql2 = "SELECT userb FROM friend WHERE usera = ?";
 						connection.query(sql2, [id_user], function(err, result_sql2) {
-							connection.release();
 							if (err) {
 								callback(err);
 							} else {
-								let result = [];
+								const sql3 = "SELECT toUser FROM request WHERE fromUser = ?";
+								connection.query(sql3, [id_user], function (err, result_sql3) {
+									connection.release();
+									if (err) {
+										callback(err);
+									} else {
+										let result = [];
+										let pendientes = [];
+										
+										result_sql3.forEach(e => {
+											pendientes.push(e.toUser);
+										});
+										console.log(pendientes);
+										
+										result_sql1 = result_sql1.filter(e => (e.id_user != id_user));
 
-								result_sql1 = result_sql1.filter(e => e.id_user != id_user);
-								result_sql1.filter()
-
-
-								result_sql1.forEach(element_sql1 => {
-									let user;
-									let entra = false;
-									result_sql2.forEach(element_sql2 => {
-										if (!entra) {
-											if (element_sql1.id_user != element_sql2.user) {
-												user = {
-													id: element_sql1.id_user,
-													fullname: element_sql1.fullname,
-													esAmigo: false
+										result_sql1.forEach(element_sql1 => {
+											let user;
+											let esAmigo = false;
+											let peticion = false;
+											let entra = false;
+											result_sql2.forEach(element_sql2 => {
+												if (!entra) {
+													if (element_sql1.id_user == element_sql2.userb) {
+														esAmigo = true;
+														entra = true;
+													}			
 												}
-
-											} else {
-												user = {
-													id: element_sql1.id_user,
-													fullname: element_sql1.fullname,
-													esAmigo: true
-												}
-
-												entra = true;
+											});
+											
+											if (pendientes.includes(element_sql1.id_user)) {
+												peticion = true;
 											}
-										}
-									});
-
-									result.push(user);
+											user = {
+												id: element_sql1.id_user,
+												fullname: element_sql1.fullname,
+												esAmigo,
+												peticion
+											}
+											console.log(user);
+											
+											result.push(user);
+										});
+										callback(null, result);
+									}
 								});
-
-								callback(null, result);
 							}
 						});
 					}
@@ -183,7 +218,7 @@ class DAOUsers {
 			if (err) {
 				callback(err);
 			} else {
-				const sql = "SELECT fullname FROM friend JOIN user on (userb = id_user)WHERE usera = ?";
+				const sql = "SELECT fullname, id_user FROM friend JOIN user on (userb = id_user)WHERE usera = ?";
 				connection.query(sql, [id], function(err, result) {
 					connection.release();
 					if (err) {
@@ -213,6 +248,50 @@ class DAOUsers {
 			}
 		});
 	}
+	
+	aceptarSolicitud(usera, userb, callback) {
+		this.pool.getConnection(function (err, connection) {
+			if (err) {
+				callback(err);
+			} else {
+				const sql = "INSERT INTO friend (usera, userb) VALUES (?, ?), (?, ?)";
+				connection.query(sql, [usera, userb, userb, usera], function (err, result) {
+					if (err) {
+						callback(err);
+					} else {
+						const sql2 = "DELETE FROM request WHERE (fromUser = ? AND toUser = ?) OR (toUser = ? AND fromUser = ?)";
+						connection.query(sql2, [userb, usera, userb, usera], function (err, result2) {
+							connection.release();
+							if (err) {
+								callback(err);
+							} else {
+								callback(null, result2);
+							}
+						});
+					}
+				});
+			}
+		});
+	}
+
+	rechazarSolicitud(usera, userb, callback) {
+		this.pool.getConnection(function (err, connection) {
+			if (err) {
+				callback(err);
+			} else {
+				const sql = "DELETE FROM request WHERE (fromUser = ? AND toUser = ?) OR (toUser = ? AND fromUser = ?)";
+				connection.query(sql, [userb, usera, userb, usera], function (err, result) {
+					connection.release();
+					if (err) {
+						callback(err);
+					} else {
+						callback(null, result);
+					}
+				});
+			}
+		});
+	}
 }
+
 
 module.exports = DAOUsers;

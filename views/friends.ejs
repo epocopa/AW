@@ -2,13 +2,13 @@
     <main>
         <h1>Solicitudes de amistad</h1>
         <div class="list_friends">
-            <% requests.forEach(function(request, i) { %>
+            <% requests.forEach(function(request) { %>
                 <div class="friend_request">
                     <img src="/images/friend.png">
                     <h3><%= request.fullname %></h3>
                     <div>
-                        <input class="input_button" id="send" name="acept" type="submit" value="Aceptar" />
-                        <input class="input_button" id="send" name="cancel" type="submit" value="Rechazar" />
+                        <a class="input_button" href="friends/accept/<%= request.fromUser %>">Aceptar</a>
+                        <a class="input_button" href="friends/reject/<%= request.fromUser %>">Rechazar</a>
                     </div>
                 </div>
             <% }); %>
@@ -25,10 +25,10 @@
 
         <h1>Mis amigos</h1>
         <div class="my_friends">
-            <% friends.forEach(function(friend, i) { %>
+            <% friends.forEach(function(friend) { %>
                 <div class="friend">
                     <img src="/images/friend.png">
-                    <h3><%= friend.fullname %></h3>
+                    <a class="a_friend" href="/user/profile/<%= friend.id_user %>"><%= friend.fullname %></a>
                 </div>
             <% }); %>
         </div>

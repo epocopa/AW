@@ -36,5 +36,8 @@
             </tr>
         </table>
     </form>
+    <% if (typeof errorMsg != "undefined") { %>
+        <h3 class="error_msg"><%= errorMsg %></h3>
+    <% } %>
 </main>
 <%- include('footer'); -%>

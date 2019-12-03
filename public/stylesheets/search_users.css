@@ -22,6 +22,14 @@ h3{
     margin-right: 5em;
 }
 
+.peticion{
+    color: orangered;
+}
+
+.amigos{
+    color: green;
+}
+
 @media only screen and (max-width: 550px) {
     .search_results {
         display: flex;

@@ -43,6 +43,12 @@
     width: 100%;
 }
 
+.a_friend{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 550px) {
     .list_friends,
     .search_friends,

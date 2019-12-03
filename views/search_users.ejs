@@ -6,13 +6,18 @@
                 <div class="search_friend">
                     <img src="/images/friend.png">
                     <h3><%= user.fullname %></h3>
-                    <% if (!user.esAmigo) { %>
-                        <!--TODO: indicar action del form-->
+                    <% if (!user.esAmigo && !user.peticion) { %>
 						<form action="request_friend" method="POST">
 							<input type="hidden" name="ident" value="<%= user.id %>">
 							<input type="hidden" name="query_string" value="<%= search %>">
                             <input class="input_button" type="submit" value="Solicitar amistad" />
                         </form>
+                    <% }%>
+                    <% if (user.peticion) { %>
+                        <h3 class="peticion">Peticion enviada</h3>
+                    <% }%>
+                    <% if (user.esAmigo) { %>
+                        <h3 class="amigos">Ya sois amig@s</h3>
                     <% }%>
                 </div>
             <% }); %>
