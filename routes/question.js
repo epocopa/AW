@@ -21,12 +21,20 @@ router.get('/questions', userRouter.redirectLogin, function(req, res) {
 router.get('/question/:id', userRouter.redirectLogin,  function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/question.css">';
 
-	daoQuestions.leerPregunta(req.params.id, function(err, result){
+	daoQuestions.leerPregunta(req.params.id, function(err, result1){
 		if(err){
-            next(createError(500));
-		}else{			
-			res.status(200);
-			res.render("question", { title: "question", styles: estilos, user: req.session.currentUser, question: result });
+			nex(createError(500));
+		}else if(result1){
+			daoQuestions.comprobarContestada(req.session.currentUser.id_user, req.params.id, function(err, result2){		
+				if(err){
+					next(createError(500));
+				}else{			
+					res.status(200);
+					res.render("question", { title: "question", styles: estilos, user: req.session.currentUser, question: result1, answered: result2 });
+				}
+			});
+		}else{
+			res.status(401);
 		}
 	});
 });

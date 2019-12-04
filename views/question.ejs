@@ -1,8 +1,12 @@
 <%- include('header_loged'); -%>
     <main>
-        <h1><%= question.title %></h1>
-        <p>No has contestado a esta pregunta</p><!-- TODO: ESTO ES PARTE 2-->
-        <a href="/question/answer/<%= question.id_question %>" class="input_button">Contestar pregunta</a>
+		<h1><%= question.title %></h1>
+		<% if (answered) { %>
+			<p>Ya has contestado a esta pregunta</p>
+		<% }else{ %>           
+			<p>No has contestado a esta pregunta</p>
+			<a href="/question/answer/<%= question.id_question %>" class="input_button">Contestar pregunta</a>
+		<% } %>           
 		<p>Los siguientes amigos han contestado a esta pregunta</p>
 		<!-- TODO: ESTO ES PARTE 3-->
         <div class="friends">

@@ -10,7 +10,6 @@ const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const questionRouter = require('./routes/question');
 
-
 const app = express();
 const MySQLStore = mysqlSession(session);
 

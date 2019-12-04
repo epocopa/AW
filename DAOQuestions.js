@@ -86,6 +86,30 @@ class DAOQuestions {
 			}
 		});
 	}
+
+	comprobarContestada(id_user, id_question, callback){
+		this.pool.getConnection(function(err, connection){
+			if(err){
+				callback(err, null);
+			}else{
+				const sql = "SELECT count(*) AS quest FROM answer WHERE user = ? AND question = ? ";
+				connection.query(sql, [id_user, id_question], function(err, result){
+					connection.release();
+					if(err){
+						callback(err, null);
+					}else{			
+						console.log(result, "....", result[0]);
+						
+						if(result[0].quest > 0){
+							callback(null, result);
+						}else{
+							callback(null, false);
+						}						
+					}
+				});
+			}
+		});
+	}
 }
 
 module.exports = DAOQuestions;

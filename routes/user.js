@@ -109,24 +109,28 @@ router.post("/modify", redirectLogin, function(req, res, next) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
 
     bcrypt.compare(req.body.password, req.session.currentUser.pass, function(err, result) {
-        if (!result) {
-            res.status(401);
-            res.render("modify", { title: "login", user: req.session.currentUser, errorMsg: "Email y/o contraseña no válidos", styles: estilos });
-        } else {
-            req.session.currentUser.email = req.body.email || req.session.currentUser.email;
-            req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
-            req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
-            req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
-            req.session.currentUser.profile_image = req.body.profile_image || req.session.currentUser.profile_image;
-
-            daoUsers.modificarUsuario(req.session.currentUser, function(err) {
-                if (err) {
-                    next(createError(500));
-                } else {
-                    res.redirect("profile");
-                }
-            });
-        }
+		if(err){
+			next(createError(500));
+		}else{
+			if (!result) {
+				res.status(401);
+				res.render("modify", { title: "login", user: req.session.currentUser, errorMsg: "Email y/o contraseña no válidos", styles: estilos });
+			} else {
+				req.session.currentUser.email = req.body.email || req.session.currentUser.email;
+				req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
+				req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
+				req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
+				req.session.currentUser.profile_image = req.body.profile_image || req.session.currentUser.profile_image;
+	
+				daoUsers.modificarUsuario(req.session.currentUser, function(err) {
+					if (err) {
+						next(createError(500));
+					} else {
+						res.redirect("profile");
+					}
+				});
+			}
+		}
     });
 });
 
@@ -204,7 +208,7 @@ router.get("/friends", redirectLogin, function(req, res, next) {
 });
 
 router.get("/friends/accept/:id", redirectLogin, function (req, res, next) {
-    daoUsers.aceptarSolicitud(req.session.currentUser.id_user, req.params.id, function (err, result) {
+    daoUsers.aceptarSolicitud(req.session.currentUser.id_user, req.params.id, function (err) {
         if (err) {
             console.log(err);        
             next(createError(500));
@@ -215,7 +219,7 @@ router.get("/friends/accept/:id", redirectLogin, function (req, res, next) {
 });
 
 router.get("/friends/reject/:id", redirectLogin, function (req, res, next) {
-    daoUsers.rechazarSolicitud(req.session.currentUser.id_user, req.params.id, function (err, result) {
+    daoUsers.rechazarSolicitud(req.session.currentUser.id_user, req.params.id, function (err) {
         if (err) {
             next(createError(500));
         } else {

@@ -92,6 +92,3 @@ INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALU
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('6', '¿Cuál es el país más grande del mundo?', 'Rusia', 'Mongolia', 'India', 'Jamaica');
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('7', '¿Cuántos viajes hizo Cristóbal Colón a las Indias?', 'Tres', 'Dos', 'Cuatro', 'Diez');
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('8', '¿Cuántas veces parpadea una persona por semana?', '25k veces', '10k veces', '4k veces', '13k veces');
-
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '1', 'a', NULL);
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('2', '2', 'b', NULL);
