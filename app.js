@@ -8,6 +8,8 @@ const mysqlSession = require("express-mysql-session");
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
+const questionRouter = require('./routes/question');
+
 
 const app = express();
 const MySQLStore = mysqlSession(session);
@@ -40,6 +42,8 @@ const middlewareSession = session({
 app.use(middlewareSession);
 app.use('/', indexRouter);
 app.use('/user', userRouter.router);
+app.use('/question', questionRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

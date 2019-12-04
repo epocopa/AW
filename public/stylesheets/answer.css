@@ -8,6 +8,15 @@
     border-radius: 5px;
 }
 
+.answer>.input_text{
+	width: 80%;
+}
+
+.send_answer{
+	text-align: center;
+	margin-bottom: 0.5em;
+}
+
 #other {
     background-color: lightgreen;
 }

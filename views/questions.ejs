@@ -4,12 +4,12 @@
         <div class="selection_quests">
         <% quests.forEach(function(question) { %>
             <div class="quest">
-                <a class="a_quest" href="/user/question"><%= question.title %></a>
+                <a class="a_quest" href="/question/question/<%= question.id_question %>"><%= question.title %></a>
             </div>
         <% }); %>
         <h1>¡Añade tus preguntas!</h1>
         <div class="add_questions">
-            <a class="input_button" href="/user/create_question">Crear nueva pregunta</a>
+            <a class="input_button" href="/question/create_question">Crear nueva pregunta</a>
         </div>
     </main>
 <%- include('footer'); -%>

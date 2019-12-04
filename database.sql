@@ -19,7 +19,7 @@ CREATE OR REPLACE TABLE question(
 );
 
 CREATE OR REPLACE TABLE answer(
-	question INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	question INT NOT NULL,
 	user INT NOT NULL,
 	answer ENUM('a', 'b', 'c', 'd', 'o'),
 	other VARCHAR(50),

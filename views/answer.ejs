@@ -1,25 +1,27 @@
 <%- include('header_loged'); -%>
     <main>
-        <h1>¿Nintendo Switch, PS4, o Xbox One?</h1>
+        <h1><%= question.title %></h1>
         <div class="answers">
-            <form name='f' method='POST'>
+            <form action="<%= question.id_question %>" method='POST'>
                 <div class="answer">
-                    <input class="input_radio" type="radio" name='ans' value="a" />Nintendo Switch
+                    <input class="input_radio" type="radio" name='ans' value="a" required/><%= question.opA %>
                 </div>
                 <div class="answer">
-                    <input class="input_radio" type="radio" name='ans' value="b" />PS4
+                    <input class="input_radio" type="radio" name='ans' value="b" /><%= question.opB %>
                 </div>
                 <div class="answer">
-                    <input class="input_radio" type="radio" name='ans' value="c" />Xbox One
+                    <input class="input_radio" type="radio" name='ans' value="c" /><%= question.opC %>
                 </div>
                 <div class="answer">
-                    <input class="input_radio" type="radio" name='ans' value="d" />No me interesan los videojuegos
+                    <input class="input_radio" type="radio" name='ans' value="d" /><%= question.opD %>
                 </div>
                 <div class="answer" id="other">
-                    <input class="input_radio" type="radio" name='ans' value="o" />
+                    <input class="input_radio" type="radio" name='ans' value="o" />Otra: 
                     <input class="input_text" type="text" name="other">
-                </div>
-                <input class="input_button" id="send" name="submit" type="submit" value="Responder" />
+				</div>
+				<div class="send_answer">
+					<input class="input_button" id="send" type="submit" value="Responder"/>
+				</div>
             </form>
         </div>
     </main>

@@ -1,6 +1,5 @@
 const config = require("../config");
 const DAOUsers = require("../DAOUsers");
-const DAOQuestions = require("../DAOQuestions");
 const express = require("express");
 const mysql = require("mysql");
 const createError = require('http-errors');
@@ -10,11 +9,10 @@ const router = express.Router();
 
 const pool = mysql.createPool(config.mysqlConfig);
 const daoUsers = new DAOUsers(pool);
-const daoQuestions = new DAOQuestions(pool);
 
 const redirectLogin = function(req, res, next) {
     if (!req.session.currentUser) {
-        res.redirect("login");
+        res.redirect("/user/login");
     } else {
         next();
     }
@@ -22,7 +20,7 @@ const redirectLogin = function(req, res, next) {
 
 const redirectProfile = function(req, res, next) {
     if (req.session.currentUser) {
-        res.redirect("profile");
+        res.redirect("/user/profile");
     } else {
         next();
     }
@@ -239,55 +237,6 @@ router.get('/search', redirectLogin, function(req, res, next) {
     });
 });
 
-router.get('/questions', redirectLogin, function(req, res) {
-    let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
-
-    daoQuestions.generarAleatorias(function(err, result){
-        if(err){
-            next(createError(500));
-        }else{
-            res.status(200);
-            res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser, quests: result });
-        }
-    });
-});
-
-router.get('/question', redirectLogin, function(req, res) {
-    let estilos = '<link rel="stylesheet" href="/stylesheets/question.css">';
-
-    res.status(200);
-    res.render("question", { title: "question", styles: estilos, user: req.session.currentUser });
-});
-
-
-router.get('/create_question', redirectLogin, function(req, res) {
-    let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
-
-    res.status(200);
-    res.render("create_question", { title: "create_question", styles: estilos, user: req.session.currentUser });
-});
-
-
-router.post('/add_question', redirectLogin, function(req, res) {
-    let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
-
-    let question = {
-        title: req.body.title_question,
-        opA: req.body.option1,
-        opB: req.body.option2,
-        opC: req.body.option3,
-        opD: req.body.optionD
-    }
-
-    daoQuestions.crearPregunta(question, function(err) {
-        if (err) {
-            next(createError(500));
-        } else {
-            res.render("questions", { title: "questions", styles: estilos, user: req.session.currentUser });
-        }
-    });
-});
-
 router.post('/request_friend', redirectLogin, function(req, res, next) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
 
@@ -300,7 +249,7 @@ router.post('/request_friend', redirectLogin, function(req, res, next) {
     });
 });
 
-module.exports = { router, pool };
+module.exports = { router, pool, redirectLogin };
 
 /*
 TODO:

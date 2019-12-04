@@ -19,8 +19,12 @@
     font-weight: bold;
 }
 
+h1{
+	text-align: center;
+}
+
 .a_quest:hover{
-    color: lightgoldenrodyellow;
+    color: peachpuff;
 }
 
 @media only screen and (max-width: 550px) {

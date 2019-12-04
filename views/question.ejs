@@ -1,9 +1,10 @@
 <%- include('header_loged'); -%>
     <main>
-        <h1>¿Nintendo Switch, PS4, o Xbox One?</h1>
-        <p>No has contestado a esta pregunta</p>
-        <button class="input_button">Contestar pregunta</button>
-        <p>Los siguientes amigos han contestado a esta pregunta</p>
+        <h1><%= question.title %></h1>
+        <p>No has contestado a esta pregunta</p><!-- TODO: ESTO ES PARTE 2-->
+        <a href="/question/answer/<%= question.id_question %>" class="input_button">Contestar pregunta</a>
+		<p>Los siguientes amigos han contestado a esta pregunta</p>
+		<!-- TODO: ESTO ES PARTE 3-->
         <div class="friends">
             <div class="friend">
                 <img src="/images/friend.png" alt="">

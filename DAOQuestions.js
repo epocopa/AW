@@ -17,6 +17,7 @@ class DAOQuestions {
                     question.opD
                 ],
                 function(err, result){
+					connection.release();
                     if(err){
                         callback(err);
                     }else{
@@ -27,6 +28,24 @@ class DAOQuestions {
         });
     }
 
+	leerPregunta(id, callback){
+		this.pool.getConnection(function(err, connection){
+            if(err){
+                callback(err);
+            }else{
+                const sql = "SELECT * FROM question WHERE id_question = ?";
+                connection.query(sql, [id], function(err, result){
+					connection.release();
+                    if(err){
+                        callback(err);
+                    }else{
+                        callback(null, result[0]);
+                    }
+                });
+            }
+		});
+	}
+
     generarAleatorias(callback){
         this.pool.getConnection(function(err, connection){
             if(err){
@@ -34,6 +53,7 @@ class DAOQuestions {
             }else{
                 const sql = "SELECT * FROM question ORDER BY RAND() LIMIT 4";
                 connection.query(sql, function(err, result){
+					connection.release();
                     if(err){
                         callback(err);
                     }else{
@@ -42,7 +62,30 @@ class DAOQuestions {
                 });
             }
         });
-    }
+	}
+	
+	contestarPregunta(answer, callback){
+		this.pool.getConnection(function(err, connection){
+			if(err){
+				callback(err);
+			}else{
+				const sql = "INSERT INTO answer (question, user, answer, other) VALUES (?, ?, ?, ?)";
+				connection.query(sql, [
+					answer.question, 
+					answer.user, 
+					answer.answer, 
+					answer.other
+				], function(err){
+					connection.release();
+					if(err){
+						callback(err);
+					}else{
+						callback(null);
+					}
+				});
+			}
+		});
+	}
 }
 
 module.exports = DAOQuestions;
