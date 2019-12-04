@@ -254,7 +254,8 @@ module.exports = { router, pool, redirectLogin };
 /*
 TODO:
 - DONE (Dani): Hacer un get de perfil de usuario
-- DOING (Pablo): Seleccionar una de las preguntas de la selección aleatoria mencionada anteriormente
-- (Juntos que no separados): Responder una pregunta para sí mismo
-- Corregir FALLO BD: en la tabla answer tenemos puesto como PK la pregunta.
+- DONE (Pablo): Seleccionar una de las preguntas de la selección aleatoria mencionada anteriormente
+- DONE (Juntos que no separados): Responder una pregunta para sí mismo
+- DONE Corregir FALLO BD: en la tabla answer tenemos puesto como PK la pregunta.
+- (Dani) : Implementar que si has contestado ya a una pregunta te indique que YA LA HAS CONTESTADO
 */
