@@ -24,3 +24,15 @@ table {
     text-align: center;
     color: red;
 }
+
+.caja_errores {
+	margin: 1em;
+	border-radius: 5px;
+	border: 2px solid red;
+	background-color: rgba(255,0,0,0.5);
+	opacity: 0.8;
+}
+
+.caja_errores>ul{
+	list-style-type: none;
+}

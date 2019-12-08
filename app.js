@@ -9,6 +9,7 @@ const mysqlSession = require("express-mysql-session");
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const questionRouter = require('./routes/question');
+const expressValidator = require("express-validator");
 
 const app = express();
 const MySQLStore = mysqlSession(session);
@@ -22,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(expressValidator());
 
 const sessionStore = new MySQLStore({
 	host: "localhost",

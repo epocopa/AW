@@ -1,14 +1,18 @@
 const config = require("../config");
 const DAOUsers = require("../DAOUsers");
+
 const express = require("express");
 const mysql = require("mysql");
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
-
+const path = require("path");
+const multer = require("multer");
 const router = express.Router();
 
 const pool = mysql.createPool(config.mysqlConfig);
 const daoUsers = new DAOUsers(pool);
+
+const multerFactory = multer({ dest: path.join(__dirname, "../uploads")});
 
 const redirectLogin = function(req, res, next) {
     if (!req.session.currentUser) {
@@ -68,34 +72,50 @@ router.get("/register", redirectProfile, function(req, res) {
     res.render("register", { title: "register", styles: estilos });
 });
 
-router.post("/register", redirectProfile, function(req, res, next) {
-    let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
+router.post("/register", multerFactory.single("photo"), redirectProfile, function (req, res, next) {
+	let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
+	let nombreFichero = null;
 
-    bcrypt.hash(req.body.password, 6, function(err, hash) {
-        let user = {
-            email: req.body.email,
-            password: hash,
-            fullname: req.body.fullname,
-            sex: req.body.sex,
-            birthdate: req.body.birthdate,
-            profile_image: req.body.profile_image,
-            points: 0
-        }
+	if (req.file) {
+		console.log(`Nombre del fichero: ${req.file.filename}`);
+		nombreFichero = req.file.filename;
+	}
+	
+	req.checkBody("password", "La contraseña no es válida").isLength({ min: 4, max: 10 });
+	req.checkBody("email", "Dirección de correo no válida").isEmail();
+	req.checkBody("fullname","Nombre de usuario no válido").matches(/^[A-Z0-9]+$/i);
 
-        daoUsers.crearUsuario(user, function(err) {
-            if (err) {
-                console.log(err.code);
-                if (err.code == 'ER_DUP_ENTRY') {
-                    res.status(418);
-                    res.render("register", { title: "register", errorMsg: "El email ya existe en la base de datos", styles: estilos });
-                } else {
-                    next(createError(500));
-                }
-            } else {
-                res.redirect("/user/login");
-            }
-        });
-    });
+	req.getValidationResult().then(function(result) {
+		if (result.isEmpty()) {
+			bcrypt.hash(req.body.password, 6, function(err, hash) {
+				let user = {
+					email: req.body.email,
+					password: hash,
+					fullname: req.body.fullname,
+					sex: req.body.sex,
+					birthdate: req.body.birthdate,
+					image: nombreFichero,
+					points: 0
+				}
+		
+				daoUsers.crearUsuario(user, function(err) {
+					if (err) {
+						console.log(err.code);
+						if (err.code == 'ER_DUP_ENTRY') {
+							res.status(418);
+							res.render("register", { title: "register", errorMsg: "El email ya existe en la base de datos", styles: estilos });
+						} else {
+							next(createError(500));
+						}
+					} else {
+						res.redirect("/user/login");
+					}
+				});
+			});
+		} else {
+			res.render("register", { title: "register", errores: result.array() , styles: estilos });
+		}
+	});
 });
 
 router.get("/modify", redirectLogin, function(req, res) {
@@ -120,7 +140,7 @@ router.post("/modify", redirectLogin, function(req, res, next) {
 				req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
 				req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
 				req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
-				req.session.currentUser.profile_image = req.body.profile_image || req.session.currentUser.profile_image;
+				req.session.currentUser.image = req.body.image || req.session.currentUser.image;
 	
 				daoUsers.modificarUsuario(req.session.currentUser, function(err) {
 					if (err) {
@@ -257,9 +277,7 @@ module.exports = { router, pool, redirectLogin };
 
 /*
 TODO:
-- DONE (Dani): Hacer un get de perfil de usuario
-- DONE (Pablo): Seleccionar una de las preguntas de la selección aleatoria mencionada anteriormente
-- DONE (Juntos que no separados): Responder una pregunta para sí mismo
-- DONE Corregir FALLO BD: en la tabla answer tenemos puesto como PK la pregunta.
-- (Dani) : Implementar que si has contestado ya a una pregunta te indique que YA LA HAS CONTESTADO
+- Validar campos formularios.
+- Arreglar imagenes perfil (la sube a la BD pero no la sube correctamente)
+- Responder una pregunta en nombre de otro usuario
 */
