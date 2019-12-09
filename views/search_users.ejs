@@ -4,7 +4,11 @@
         <div class="search_results">
             <% users.forEach(function(user, i) { %>
                 <div class="search_friend">
-                    <img src="/images/friend.png">
+                    <% if (user.image){ console.log(user.image);%>
+                        <img src="/user/uploads/<%= user.image%>" alt="imagen de usuario">
+                    <% }else{ %>
+                        <img src="/images/profile_logo.png" alt="imagen de usuario">
+                    <% } %>
                     <h3><%= user.fullname %></h3>
                     <% if (!user.esAmigo && !user.peticion) { %>
 						<form action="request_friend" method="POST">

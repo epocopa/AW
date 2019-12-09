@@ -131,7 +131,7 @@ class DAOUsers {
 			if (err) {
 				callback(err);
 			} else {
-				const sql = "SELECT fullname, fromUser FROM user JOIN request ON id_user = fromUser AND toUser = ?";
+				const sql = "SELECT fullname, fromUser, image FROM user JOIN request ON id_user = fromUser AND toUser = ?";
 				connection.query(sql, [id], function(err, result) {
 					connection.release();
 					if (err) {
@@ -149,7 +149,7 @@ class DAOUsers {
 			if (err) {
 				callback(err);
 			} else {
-				const sql1 = "SELECT id_user, fullname FROM user WHERE fullname LIKE ?";
+				const sql1 = "SELECT id_user, fullname, image FROM user WHERE fullname LIKE ?";
 				connection.query(sql1, ['%' + searchUser + '%'], function(err, result_sql1) {
 					if (err) {
 						callback(err);
@@ -171,7 +171,6 @@ class DAOUsers {
 										result_sql3.forEach(e => {
 											pendientes.push(e.toUser);
 										});
-										console.log(pendientes);
 										
 										result_sql1 = result_sql1.filter(e => (e.id_user != id_user));
 
@@ -196,10 +195,9 @@ class DAOUsers {
 												id: element_sql1.id_user,
 												fullname: element_sql1.fullname,
 												esAmigo,
-												peticion
-											}
-											console.log(user);
-											
+												peticion,
+												image: element_sql1.image
+											}											
 											result.push(user);
 										});
 										callback(null, result);
@@ -218,7 +216,7 @@ class DAOUsers {
 			if (err) {
 				callback(err);
 			} else {
-				const sql = "SELECT fullname, id_user FROM friend JOIN user on (userb = id_user)WHERE usera = ?";
+				const sql = "SELECT fullname, id_user, image FROM friend JOIN user on (userb = id_user)WHERE usera = ?";
 				connection.query(sql, [id], function(err, result) {
 					connection.release();
 					if (err) {

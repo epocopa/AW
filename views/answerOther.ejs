@@ -1,0 +1,25 @@
+<%- include('header_loged'); -%>
+    <main>
+        <h1><%= question.title %></h1>
+        <p>¿Que crees que opina <strong><%= friend.fullname %></strong>?</p>
+        <div class="answers">
+            <form action="" method='POST'>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="a" required/><%= question.opA %>
+                </div>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="b" /><%= question.opB %>
+                </div>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="c" /><%= question.opC %>
+                </div>
+                <div class="answer">
+                    <input class="input_radio" type="radio" name='ans' value="d" /><%= question.opD %>
+                </div>
+				<div class="send_answer">
+					<input class="input_button" id="send" type="submit" value="Responder"/>
+				</div>
+            </form>
+        </div>
+    </main>
+<%- include('footer'); -%>

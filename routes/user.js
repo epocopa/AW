@@ -69,7 +69,7 @@ router.get("/register", redirectProfile, function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
 
     res.status(200);
-    res.render("register", { title: "register", styles: estilos });
+    res.render("register", { title: "register", styles: estilos, errores: 0 });
 });
 
 router.post("/register", multerFactory.single("photo"), redirectProfile, function (req, res, next) {
@@ -103,7 +103,7 @@ router.post("/register", multerFactory.single("photo"), redirectProfile, functio
 						console.log(err.code);
 						if (err.code == 'ER_DUP_ENTRY') {
 							res.status(418);
-							res.render("register", { title: "register", errorMsg: "El email ya existe en la base de datos", styles: estilos });
+							res.render("register", { title: "register", errorMsg: "El email ya existe en la base de datos",  errores: result.array(), styles: estilos });
 						} else {
 							next(createError(500));
 						}
@@ -118,6 +118,13 @@ router.post("/register", multerFactory.single("photo"), redirectProfile, functio
 	});
 });
 
+router.get("/uploads/:id", function (req, res) {
+    let pathImg = path.join(__dirname, "../uploads", req.params.id);
+    res.status(200);
+
+    res.sendFile(pathImg);
+});
+
 router.get("/modify", redirectLogin, function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
 
@@ -125,9 +132,15 @@ router.get("/modify", redirectLogin, function(req, res) {
     res.render("modify", { title: "modify", user: req.session.currentUser, styles: estilos });
 });
 
-router.post("/modify", redirectLogin, function(req, res, next) {
+router.post("/modify", multerFactory.single("photo"), redirectLogin, function(req, res, next) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
+    let nombreFichero = null;
 
+	if (req.file) {
+		console.log(`Nombre del fichero: ${req.file.filename}`);
+		nombreFichero = req.file.filename;
+    }
+    
     bcrypt.compare(req.body.password, req.session.currentUser.pass, function(err, result) {
 		if(err){
 			next(createError(500));
@@ -140,8 +153,10 @@ router.post("/modify", redirectLogin, function(req, res, next) {
 				req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
 				req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
 				req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
-				req.session.currentUser.image = req.body.image || req.session.currentUser.image;
-	
+				req.session.currentUser.image = nombreFichero || req.session.currentUser.image;
+    
+                console.log(nombreFichero);
+                
 				daoUsers.modificarUsuario(req.session.currentUser, function(err) {
 					if (err) {
 						next(createError(500));
@@ -156,12 +171,12 @@ router.post("/modify", redirectLogin, function(req, res, next) {
 
 router.get("/profile", redirectLogin, function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/profile.css">';
-
+    
     res.status(200);
     var diff = Date.now() - new Date(req.session.currentUser.birthdate);
     var age_temp = new Date(diff);
     var age = Math.abs(age_temp.getUTCFullYear() - 1970);
-
+    
     res.render("profile", {
         title: "profile",
         user: req.session.currentUser,
@@ -170,7 +185,6 @@ router.get("/profile", redirectLogin, function(req, res) {
         allowed: true
     });
 });
-
 
 router.get("/profile/:id", redirectLogin, function (req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/profile.css">';
@@ -191,7 +205,6 @@ router.get("/profile/:id", redirectLogin, function (req, res) {
                 age,
                 styles: estilos,
                 allowed: false
-
             });
         }
     });
@@ -277,7 +290,12 @@ module.exports = { router, pool, redirectLogin };
 
 /*
 TODO:
-- Validar campos formularios.
-- Arreglar imagenes perfil (la sube a la BD pero no la sube correctamente)
+- DONE: Validar campos formularios.
+- DONE: Arreglar imagenes perfil (la sube a la BD pero no la sube correctamente)
 - Responder una pregunta en nombre de otro usuario
+    - Si me deja adivinar es porque mi amigo ya ha respondido a la pregunta
+    - Cargo todos los amigos y solo adivino aquellos que hayan respondido o cargar todos los que han respondido a la pregunta
+    - Una vez cargados pueden aparecer adivinar/fallado/acertado
+        - Adivinar: te lleva a la ventana responder pregunta pero sin opcion otra y compruebas las constestaciones de tu amigo y del que has marcado
+- DONE: En la BD, answerforother sigue fallando por la PK.
 */

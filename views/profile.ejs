@@ -2,8 +2,8 @@
     <main>
         <h1>Perfil</h1>
         <div class="user">
-			<% if (user.image) { %>
-				<div id="user_image" class="user_info"><img src="/uploads/<%= user.image%>" alt="imagen de usuario"></div>
+            <% if (user.image) {  console.log(user.image);%>
+				<div id="user_image" class="user_info"><img src="/user/uploads/<%= user.image%>" alt="imagen de usuario"></div>
 			<% }else{%>
 				<div id="user_image" class="user_info"><img src="/images/profile_logo.png" alt="imagen de usuario"></div>
 			<% }%>

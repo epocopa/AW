@@ -5,7 +5,7 @@
         <table>
             <tr>
                 <td>Email:</td>
-                <td><input class="input_text" type='text' name='email' value='' required></td>
+                <td><input class="input_text" type='email' name='email' value='' required></td>
             </tr>
             <tr>
                 <td>Contraseña:</td>
@@ -39,7 +39,7 @@
     <% if (typeof errorMsg != "undefined") { %>
         <h3 class="error_msg"><%= errorMsg %></h3>
 	<% } %>
-	<%if (errores.length>0) {%>
+	<% if (errores.length>0) {%>
 	<div class="error_msg caja_errores">
 		<h3>La información introducida en el formulario es incorrecta</h3>
 		<ul>

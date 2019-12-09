@@ -10,34 +10,31 @@
 		<p>Los siguientes amigos han contestado a esta pregunta</p>
 		<!-- TODO: ESTO ES PARTE 3-->
         <div class="friends">
-            <div class="friend">
-                <img src="/images/friend.png" alt="">
-                <h3>Bruja Piruja</h3>
-                <div>
-                    <button class="input_button">Adivinar</button>
+            <% friendsAnswer.forEach(function(friend) { %>
+                <div class="friend">
+                    <% if (friend.image){ %>
+                        <img src="/user/uploads/<%= friend.image%>" alt="imagen de usuario">
+                    <% }else{ %>
+                        <img src="/images/profile_logo.png" alt="imagen de usuario">
+                    <% } %>                       
+                    <h3><%= friend.fullname %></h3>
+                    <div>
+                            <p><%= friend.answeredOther %></p>
+
+                        <% if (friend.answeredOther == 'true'){ %>
+                            <a href="/question/guess/<%= question.id_question + '/' + friend.id_user %>" class="input_button">Adivinar</a>
+                        <% }else{ %>
+                            <% if (friend.correct == 1) { %>
+                                <h3 class="correct">Has acertado</h3>
+                            <% }%>
+                            <% if (!friend.correct) { %>
+                                <h3 class="incorrect">Has fallado </h3>
+                            <% }%>
+                        <% } %>                       
+
+                    </div>
                 </div>
-            </div>
-            <div class="friend">
-                <img src="/images/friend.png" alt="">
-                <h3>Stuart Minion</h3>
-                <div>
-                    <button class="input_button">Adivinar</button>
-                </div>
-            </div>
-            <div class="friend">
-                <img src="/images/friend.png" alt="">
-                <h3>Mike Wazowski</h3>
-                <div>
-                    <h5 class="right">Has acertado</h5>
-                </div>
-            </div>
-            <div class="friend">
-                <img src="/images/friend.png" alt="">
-                <h3>Marco Polo</h3>
-                <div>
-                    <h5 class="wrong">Has fallado</h5>
-                </div>
-            </div>
+            <% }); %>
         </div>
     </main>
 <%- include('footer'); -%>

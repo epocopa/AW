@@ -4,7 +4,11 @@
         <div class="list_friends">
             <% requests.forEach(function(request) { %>
                 <div class="friend_request">
-                    <img src="/images/friend.png">
+                    <% if (request.image){ %>
+                        <img src="/user/uploads/<%= request.image%>" alt="imagen de usuario">
+                    <% }else{ %>
+                        <img src="/images/profile_logo.png" alt="imagen de usuario">
+                    <% } %>
                     <h3><%= request.fullname %></h3>
                     <div>
                         <a class="input_button" href="friends/accept/<%= request.fromUser %>">Aceptar</a>
@@ -27,7 +31,11 @@
         <div class="my_friends">
             <% friends.forEach(function(friend) { %>
                 <div class="friend">
-                    <img src="/images/friend.png">
+                    <% if (friend.image){ %>
+                        <img src="/user/uploads/<%= friend.image%>" alt="imagen de usuario">
+                    <% }else{ %>
+                        <img src="/images/profile_logo.png" alt="imagen de usuario">
+                    <% } %>
                     <a class="a_friend" href="/user/profile/<%= friend.id_user %>"><%= friend.fullname %></a>
                 </div>
             <% }); %>

@@ -25,3 +25,11 @@
     border-top: 1px solid white;
     width: 100%;
 }
+
+.correct{
+    color: green;
+}
+
+.incorrect{
+    color: red;
+}

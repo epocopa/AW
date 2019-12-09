@@ -5,7 +5,7 @@ CREATE OR REPLACE TABLE user(
 	fullname VARCHAR(40),
 	sex CHAR(1),
 	birthdate DATE,
-	image VARCHAR(20),
+	image VARCHAR(32),
 	points INT DEFAULT 0
 );
 
@@ -28,7 +28,7 @@ CREATE OR REPLACE TABLE answer(
 );
 
 CREATE OR REPLACE TABLE answerForOther(
-	question INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	question INT NOT NULL,
 	user INT NOT NULL,
 	userGuess INT NOT NULL,
 	answer ENUM('a', 'b', 'c', 'd'),
@@ -92,3 +92,10 @@ INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALU
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('6', '¿Cuál es el país más grande del mundo?', 'Rusia', 'Mongolia', 'India', 'Jamaica');
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('7', '¿Cuántos viajes hizo Cristóbal Colón a las Indias?', 'Tres', 'Dos', 'Cuatro', 'Diez');
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('8', '¿Cuántas veces parpadea una persona por semana?', '25k veces', '10k veces', '4k veces', '13k veces');
+
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '1', 'a', NULL);
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '2', 'a', NULL);
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '3', 'b', NULL);
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '4', 'c', NULL);
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('6', '5', 'b', NULL);
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('3', '2', 'a', NULL);

@@ -1,7 +1,7 @@
 <%- include('header_loged'); -%>
 <main>
     <h1>Modificar Usuario</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <table>
             <tr>
                 <td>Email:</td>
@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <td>Imagen de perfil:</td>
-                <td><input class="input_image" type='file' accept="image/png, image/jpeg" name='photo' /></td>
+                <td><input class="input_image" type='file' accept="image/png, image/jpeg" name="photo"/></td>
             </tr>
             <tr>
                 <td><input class="input_button" id="send" type="submit" value="Enviar" /></td>

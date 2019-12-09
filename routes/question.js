@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
 const DAOQuestions = require("../DAOQuestions");
+const DAOUsers = require("../DAOUsers");
 const userRouter = require('./user');
-const daoQuestions = new DAOQuestions(userRouter.pool);
 
-router.get('/questions', userRouter.redirectLogin, function(req, res) {
+const daoQuestions = new DAOQuestions(userRouter.pool);
+const daoUsers = new DAOUsers(userRouter.pool);
+
+router.get('/questions', userRouter.redirectLogin, function(req, res, next) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
 
     daoQuestions.generarAleatorias(function(err, result){
@@ -18,26 +21,35 @@ router.get('/questions', userRouter.redirectLogin, function(req, res) {
     });
 });
 
-router.get('/question/:id', userRouter.redirectLogin,  function(req, res) {
-    let estilos = '<link rel="stylesheet" href="/stylesheets/question.css">';
+router.get('/question/:id', userRouter.redirectLogin, function (req, res, next) {
+	let estilos = '<link rel="stylesheet" href="/stylesheets/question.css">';
 
-	daoQuestions.leerPregunta(req.params.id, function(err, result1){
-		if(err){
-			nex(createError(500));
-		}else if(result1){
-			daoQuestions.comprobarContestada(req.session.currentUser.id_user, req.params.id, function(err, result2){		
-				if(err){
+	daoQuestions.leerPregunta(req.params.id, function (err, result1) {
+		if (err) {
+			next(createError(500));
+		} else {
+			daoQuestions.comprobarContestada(req.session.currentUser.id_user, req.params.id, function (err, result2) {
+				if (err) {
 					next(createError(500));
-				}else{			
-					res.status(200);
-					res.render("question", { title: "question", styles: estilos, user: req.session.currentUser, question: result1, answered: result2 });
+				} else {
+					daoQuestions.listarAmigosPreguntaContestada(req.session.currentUser.id_user, req.params.id, function (err, result3) {
+						if (err) {
+							console.log(err);
+							next(createError(500));
+						} else {	
+							console.log(result3);
+									
+							res.status(200);
+							res.render("question", { title: "question", styles: estilos, user: req.session.currentUser, question: result1, answered: result2, friendsAnswer: result3 });
+
+						}
+					});
 				}
 			});
-		}else{
-			res.status(401);
 		}
 	});
 });
+
 
 router.get('/create_question', userRouter.redirectLogin, function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/create_question.css">';
@@ -46,7 +58,7 @@ router.get('/create_question', userRouter.redirectLogin, function(req, res) {
     res.render("create_question", { title: "create_question", styles: estilos, user: req.session.currentUser });
 });
 
-router.post('/add_question', userRouter.redirectLogin, function(req, res) {
+router.post('/add_question', userRouter.redirectLogin, function(req, res, next) {
     let question = {
         title: req.body.title_question,
         opA: req.body.option1,
@@ -64,7 +76,7 @@ router.post('/add_question', userRouter.redirectLogin, function(req, res) {
     });
 });
 
-router.get('/answer/:id', userRouter.redirectLogin, function(req, res) {
+router.get('/answer/:id', userRouter.redirectLogin, function(req, res, next) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/answer.css">';
 
 	daoQuestions.leerPregunta(req.params.id, function(err, result){
@@ -77,7 +89,7 @@ router.get('/answer/:id', userRouter.redirectLogin, function(req, res) {
 	});
 });
 
-router.post('/answer/:id', userRouter.redirectLogin, function(req, res) {
+router.post('/answer/:id', userRouter.redirectLogin, function(req, res, next) {
 	let answer = {
 		question: req.params.id,
 		user: req.session.currentUser.id_user,
@@ -94,5 +106,45 @@ router.post('/answer/:id', userRouter.redirectLogin, function(req, res) {
 		}
 	});
 });
+
+router.get('/guess/:question/:user', userRouter.redirectLogin, function(req, res, next){
+	let estilos = '<link rel="stylesheet" href="/stylesheets/answer.css">';
+
+	daoQuestions.leerPregunta(req.params.question, function (err, result1) {
+		if (err) {
+			next(createError(500));
+		} else {
+			daoUsers.mostrarPerfilPorId(req.params.user, function(err, result2){
+				if (err){
+					next(createError(500));
+				} else {
+					res.status(200);
+					res.render("answerOther", { title: "answerOther", styles: estilos, user: req.session.currentUser, question: result1, friend: result2[0] });
+				}
+			});
+		}
+	});
+});
+
+router.post('/guess/:question/:user', userRouter.redirectLogin, function (req, res, next) {
+	
+	let answer = {
+		question: req.params.question,
+		user: req.params.user,
+		userGuess: req.session.currentUser.id_user,
+		answer: req.body.ans
+	}
+
+	daoQuestions.responderPorOtro(answer, function (err) {
+		if (err) {
+			next(createError(500));
+		} else {
+			res.status(200);
+			res.redirect("/question/question/" + req.params.question);
+		}
+	});
+
+});
+
 
 module.exports = router;
