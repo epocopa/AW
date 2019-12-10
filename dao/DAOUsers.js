@@ -314,12 +314,19 @@ class DAOUsers {
 				callback(err);
 			} else {
 				const sql = "INSERT INTO images VALUES(?, ?, ?)";
-				connection.query(sql, [user, imagen, desc], function(err, result) {
-					connection.release();
+				connection.query(sql, [user.id_user, imagen, desc], function(err, result) {
 					if (err) {
 						callback(err);
 					} else {
-						callback(null, result);
+						const sql2 = "UPDATE user SET points = ? - 100 WHERE id_user = ?";
+						connection.query(sql2, [user.points, user.id_user], function(err){
+							connection.release();
+							if(err){
+								callback(err);
+							}else{
+								callback(null, result);
+							}
+						});						
 					}
 				});
 			}

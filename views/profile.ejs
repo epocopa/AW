@@ -29,6 +29,7 @@
 						<td><input class="input_text" type='text' name='description' /></td>
 					</tr>
 					<tr>
+						<td>Imagen:</td>
 						<td> <input class="input_image" type='file' accept="image/png, image/jpeg" name="image" /></td>
 					</tr>
 				</table>
@@ -42,6 +43,5 @@
 				<img class="gallery_image" src="/user/uploads/<%= image.image %>" title="<%= image.description %>">
             <% });%>
 		</div>
-		
     </main>
 <%- include('footer'); -%>

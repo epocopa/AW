@@ -301,7 +301,7 @@ router.post("/profile/image", multerFactory.single("image"), redirectLogin, func
 	
 	req.checkBody("description", "La descripcion tiene un maximo de 140 caracteres").isLength({ min: 0, max: 140 });
 	
-	daoUsers.insertarImagen(req.session.currentUser.id_user, nombreFichero, req.body.description, function(err) {
+	daoUsers.insertarImagen(req.session.currentUser, nombreFichero, req.body.description, function(err) {
 		if (err) {
             next(createError(500));
         } else {
