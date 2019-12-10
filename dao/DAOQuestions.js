@@ -1,5 +1,3 @@
-const { promisify } = require('util');
-
 class DAOQuestions {
     constructor(pool) {
         this.pool = pool;
@@ -138,22 +136,16 @@ class DAOQuestions {
             if (err) {
                 callback(err, null);
             } else {
-                const sql = "SELECT fullname, image, id_user FROM answer a JOIN user u ON u.id_user = a.user WHERE question = ? AND a.user IN(SELECT userb FROM friend WHERE usera = ?)";
+                const sql = "SELECT fullname, image, id_user, correct FROM answer a JOIN user u ON u.id_user = a.user LEFT JOIN answerForOther o ON (id_user = o.user AND a.question = o.question) WHERE a.question = ? AND a.user IN(SELECT userb FROM friend WHERE usera = ?)";
                 connection.query(sql, [id_question, id_user], function (err, result) {
+                    connection.release();
                     if (err) {
                         callback(err, null);
                     } else {
-                        // TODOOO
-                        result.forEach(e => { 
-                            const sql = "SELECT correct FROM answerForOther WHERE user = ? AND question = ? ";
-                            const promiseQuery = promisify(pool.query).bind(pool);
-                            const result = await promiseQuery(sql, [id_user, id_question]);
-                            if (result2[0]) {
-                                e.correct = result2[0].correct;
-                                e.answeredOther = true;
-                            }
-                        });
-                        callback(null, result);
+                        console.log(id_user, "--", id_question);
+                        console.log(result);
+                        
+                       callback(null, result);
                     }
                 });
             }

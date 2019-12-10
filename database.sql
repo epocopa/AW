@@ -99,3 +99,7 @@ INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '3', '
 INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '4', 'c', NULL);
 INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('6', '5', 'b', NULL);
 INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('3', '2', 'a', NULL);
+
+
+-- SELECT fullname, image, id_user, correct FROM answer a JOIN user u ON u.id_user = a.user LEFT JOIN answerForOther o ON (id_user = o.user AND a.question = o.question) WHERE a.question = 1 AND a.user IN(SELECT userb FROM friend WHERE usera = 1)  //LA BUENA
+

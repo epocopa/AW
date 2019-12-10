@@ -1,5 +1,5 @@
 const config = require("../config");
-const DAOUsers = require("../DAOUsers");
+const DAOUsers = require("../dao/DAOUsers");
 
 const express = require("express");
 const mysql = require("mysql");
@@ -290,12 +290,10 @@ module.exports = { router, pool, redirectLogin };
 
 /*
 TODO:
-- DONE: Validar campos formularios.
-- DONE: Arreglar imagenes perfil (la sube a la BD pero no la sube correctamente)
 - Responder una pregunta en nombre de otro usuario
     - Si me deja adivinar es porque mi amigo ya ha respondido a la pregunta
     - Cargo todos los amigos y solo adivino aquellos que hayan respondido o cargar todos los que han respondido a la pregunta
     - Una vez cargados pueden aparecer adivinar/fallado/acertado
         - Adivinar: te lleva a la ventana responder pregunta pero sin opcion otra y compruebas las constestaciones de tu amigo y del que has marcado
-- DONE: En la BD, answerforother sigue fallando por la PK.
+- Terminar pdf presentacion.
 */

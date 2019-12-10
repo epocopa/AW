@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const createError = require('http-errors');
-const DAOQuestions = require("../DAOQuestions");
-const DAOUsers = require("../DAOUsers");
+const DAOQuestions = require("../dao/DAOQuestions");
+const DAOUsers = require("../dao/DAOUsers");
 const userRouter = require('./user');
 
 const daoQuestions = new DAOQuestions(userRouter.pool);
 const daoUsers = new DAOUsers(userRouter.pool);
+
+//-------------------------------------------------------------------------------------
 
 router.get('/questions', userRouter.redirectLogin, function(req, res, next) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/questions.css">';
@@ -36,12 +38,9 @@ router.get('/question/:id', userRouter.redirectLogin, function (req, res, next) 
 						if (err) {
 							console.log(err);
 							next(createError(500));
-						} else {	
-							console.log(result3);
-									
+						} else {										
 							res.status(200);
 							res.render("question", { title: "question", styles: estilos, user: req.session.currentUser, question: result1, answered: result2, friendsAnswer: result3 });
-
 						}
 					});
 				}

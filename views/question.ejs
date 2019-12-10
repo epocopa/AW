@@ -19,19 +19,16 @@
                     <% } %>                       
                     <h3><%= friend.fullname %></h3>
                     <div>
-                            <p><%= friend.answeredOther %></p>
-
-                        <% if (friend.answeredOther == 'true'){ %>
+                        <% if (friend.correct == null){ %>
                             <a href="/question/guess/<%= question.id_question + '/' + friend.id_user %>" class="input_button">Adivinar</a>
                         <% }else{ %>
                             <% if (friend.correct == 1) { %>
                                 <h3 class="correct">Has acertado</h3>
                             <% }%>
-                            <% if (!friend.correct) { %>
-                                <h3 class="incorrect">Has fallado </h3>
+                            <% if (friend.correct == 0) { %>
+                                <h3 class="incorrect">Has fallado</h3>
                             <% }%>
                         <% } %>                       
-
                     </div>
                 </div>
             <% }); %>
