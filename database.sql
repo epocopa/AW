@@ -57,7 +57,7 @@ CREATE OR REPLACE TABLE request(
 CREATE OR REPLACE TABLE images(
 	user INT NOT NULL,
 	image VARCHAR(32),
-	description VARCHAR(15s0),
+	description VARCHAR(150),
 	FOREIGN KEY (user) REFERENCES user(id_user)
 );
 

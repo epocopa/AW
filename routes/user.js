@@ -300,25 +300,16 @@ router.post("/profile/image", multerFactory.single("image"), redirectLogin, func
 	}
 	
 	req.checkBody("description", "La descripcion tiene un maximo de 140 caracteres").isLength({ min: 0, max: 140 });
-
+	
 	daoUsers.insertarImagen(req.session.currentUser.id_user, nombreFichero, req.body.description, function(err) {
 		if (err) {
             next(createError(500));
         } else {
-            res.redirect("/profile");
+            res.redirect("/user/profile");
         }	
 	});
 });
 
-
 module.exports = { router, pool, redirectLogin };
 
-/*
-TODO:
-- Responder una pregunta en nombre de otro usuario
-    - Si me deja adivinar es porque mi amigo ya ha respondido a la pregunta
-    - Cargo todos los amigos y solo adivino aquellos que hayan respondido o cargar todos los que han respondido a la pregunta
-    - Una vez cargados pueden aparecer adivinar/fallado/acertado
-        - Adivinar: te lleva a la ventana responder pregunta pero sin opcion otra y compruebas las constestaciones de tu amigo y del que has marcado
-- Terminar pdf presentacion.
-*/
+
