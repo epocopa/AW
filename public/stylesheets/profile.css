@@ -51,6 +51,27 @@
     padding-right: 1em;
 }
 
+.gallery_form{
+	text-align: center;
+	background-color: lightgray;
+    padding: 1%;
+	border-radius: 5px;
+}
+
+.gallery{
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.gallery_image{
+	border-radius: 5px;
+	margin: 1em;
+}
+
+h3{
+	text-align: center;
+}
 @media only screen and (max-width: 800px) {
     .user {
         display: flex;

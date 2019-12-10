@@ -3,9 +3,9 @@
         <h1>Perfil</h1>
         <div class="user">
             <% if (user.image) {  console.log(user.image);%>
-				<div id="user_image" class="user_info"><img src="/user/uploads/<%= user.image%>" alt="imagen de usuario"></div>
+				<div id="user_image" class="user_info"><img src="/user/uploads/<%= user.image%>" alt="imagen de usuario" height="128px" width="128px"></div>
 			<% }else{%>
-				<div id="user_image" class="user_info"><img src="/images/profile_logo.png" alt="imagen de usuario"></div>
+				<div id="user_image" class="user_info"><img src="/images/profile_logo.png" alt="imagen de usuario" height="128px" width="128px"></div>
 			<% }%>
             <div id="user_name" class="user_info"><%= user.fullname %></div>
             <div id="user_years" class="user_info"><%= age %> años</div>
@@ -18,6 +18,20 @@
                 </form>
                 <% }%>           
             </div>
-        </div>
+		</div>
+		
+		<h3>Subir imagen a galería</h3>
+		<div class="gallery_form">
+            <form action="" method="GET">
+                <input class="input_image" type='file' accept="image/png, image/jpeg" name="photo_gallery"/>
+            </form>
+		</div>
+
+		<div class="gallery">
+			<% images.forEach(function(image) { %>
+				<img class="gallery_image" src="">
+            <% }%>
+		</div>
+		
     </main>
 <%- include('footer'); -%>

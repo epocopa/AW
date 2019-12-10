@@ -5,9 +5,9 @@
             <% users.forEach(function(user, i) { %>
                 <div class="search_friend">
                     <% if (user.image){ console.log(user.image);%>
-                        <img src="/user/uploads/<%= user.image%>" alt="imagen de usuario">
+                        <img src="/user/uploads/<%= user.image%>" alt="imagen de usuario" height="72px" width="72px">
                     <% }else{ %>
-                        <img src="/images/profile_logo.png" alt="imagen de usuario">
+                        <img src="/images/profile_logo.png" alt="imagen de usuario" height="72px" width="72px">
                     <% } %>
                     <h3><%= user.fullname %></h3>
                     <% if (!user.esAmigo && !user.peticion) { %>
