@@ -289,6 +289,42 @@ class DAOUsers {
 			}
 		});
 	}
+
+	leerImagenes(user, callback)  {
+		this.pool.getConnection(function(err, connection) {
+			if (err) {
+				callback(err);
+			} else {
+				const sql = "SELECT image, description FROM images WHERE user = ?";
+				connection.query(sql, [user], function(err, result) {
+					connection.release();
+					if (err) {
+						callback(err);
+					} else {
+						callback(null, result);
+					}
+				});
+			}
+		});
+	}
+
+	insertarImagen(user, imagen, desc, callback)  {
+		this.pool.getConnection(function(err, connection) {
+			if (err) {
+				callback(err);
+			} else {
+				const sql = "INSERT INTO images VALUES(?, ?, ?)";
+				connection.query(sql, [user, imagen, desc], function(err, result) {
+					connection.release();
+					if (err) {
+						callback(err);
+					} else {
+						callback(null, result);
+					}
+				});
+			}
+		});
+	}
 }
 
 

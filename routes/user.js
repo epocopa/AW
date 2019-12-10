@@ -175,15 +175,18 @@ router.get("/profile", redirectLogin, function(req, res) {
     res.status(200);
     var diff = Date.now() - new Date(req.session.currentUser.birthdate);
     var age_temp = new Date(diff);
-    var age = Math.abs(age_temp.getUTCFullYear() - 1970);
-    
-    res.render("profile", {
-        title: "profile",
-        user: req.session.currentUser,
-        age,
-        styles: estilos,
-        allowed: true
-    });
+	var age = Math.abs(age_temp.getUTCFullYear() - 1970);
+	
+	daoUsers.leerImagenes(req.session.currentUser.id_user, function(err, result) {
+		res.render("profile", {
+			title: "profile",
+			user: req.session.currentUser,
+			age,
+			styles: estilos,
+			allowed: true,
+			images: result
+		});
+	});
 });
 
 router.get("/profile/:id", redirectLogin, function (req, res) {
@@ -199,13 +202,16 @@ router.get("/profile/:id", redirectLogin, function (req, res) {
             var age_temp = new Date(diff);
             var age = Math.abs(age_temp.getUTCFullYear() - 1970);
 
-            res.render("profile", {
-                title: "profile",
-                user,
-                age,
-                styles: estilos,
-                allowed: false
-            });
+			daoUsers.leerImagenes(req.session.currentUser.id_user, function(err, result) {
+				res.render("profile", {
+					title: "profile",
+					user,
+					age,
+					styles: estilos,
+					allowed: false,
+					images: result
+				});
+			});
         }
     });
 });
@@ -275,7 +281,6 @@ router.get('/search', redirectLogin, function(req, res, next) {
 });
 
 router.post('/request_friend', redirectLogin, function(req, res, next) {
-    let estilos = '<link rel="stylesheet" href="/stylesheets/search_users.css">';
 
     daoUsers.solicitarAmistad(req.session.currentUser.id_user, req.body.ident, function(err) {
         if (err) {
@@ -285,6 +290,26 @@ router.post('/request_friend', redirectLogin, function(req, res, next) {
         }
     });
 });
+
+router.post("/profile/image", multerFactory.single("image"), redirectLogin, function (req, res, next) {
+	let nombreFichero = null;
+
+	if (req.file) {
+		console.log(`Nombre del fichero: ${req.file.filename}`);
+		nombreFichero = req.file.filename;
+	}
+	
+	req.checkBody("description", "La descripcion tiene un maximo de 140 caracteres").isLength({ min: 0, max: 140 });
+
+	daoUsers.insertarImagen(req.session.currentUser.id_user, nombreFichero, req.body.description, function(err) {
+		if (err) {
+            next(createError(500));
+        } else {
+            res.redirect("/profile");
+        }	
+	});
+});
+
 
 module.exports = { router, pool, redirectLogin };
 
