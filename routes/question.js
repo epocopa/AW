@@ -63,7 +63,7 @@ router.post('/add_question', userRouter.redirectLogin, function(req, res, next) 
         opA: req.body.option1,
         opB: req.body.option2,
         opC: req.body.option3,
-        opD: req.body.optionD
+        opD: req.body.option4
     }
 
     daoQuestions.crearPregunta(question, function(err) {

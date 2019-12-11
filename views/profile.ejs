@@ -20,6 +20,7 @@
             </div>
 		</div>
 		
+		<% if (allowed) { %>
 		<h3>Subir imagen a galería</h3>
 		<div class="gallery_form">
 			<form action="/user/profile/image" method="POST" enctype="multipart/form-data">
@@ -37,11 +38,11 @@
 				<input class="input_button" type="submit" value="Subir imagen" />
             </form>
 		</div>
-
 		<div class="gallery">
 			<% images.forEach(function(image) { %>
 				<img class="gallery_image" src="/user/uploads/<%= image.image %>" title="<%= image.description %>">
             <% });%>
 		</div>
+		<% }%>           
     </main>
 <%- include('footer'); -%>

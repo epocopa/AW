@@ -67,7 +67,7 @@ CREATE OR REPLACE TABLE images(
 	FOREIGN KEY (user) REFERENCES user(id_user)
 );
 
-
+/*
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('1', 'usuario1@ucm.es', '$2a$06$Ry0SCsmOzt4r4p8oHyLiO.OZYUJtSvGgR0H9MAqVoEeJM8Grzvn1m', 'Usuario1', 'M', '2019-11-26', NULL, '32');
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('2', 'usuario2@ucm.es', '$2a$06$Ry0SCsmOzt4r4p8oHyLiO.OZYUJtSvGgR0H9MAqVoEeJM8Grzvn1m', 'Usuario2', 'M', '2019-11-21', NULL, '30');
 INSERT INTO `user` (`id_user`, `email`, `pass`, `fullname`, `sex`, `birthdate`, `image`, `points`) VALUES ('3', 'usuario3@ucm.es', '$2a$06$Ry0SCsmOzt4r4p8oHyLiO.OZYUJtSvGgR0H9MAqVoEeJM8Grzvn1m', 'Usuario3', 'H', '2019-10-21', NULL, '12');
@@ -113,6 +113,7 @@ INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '3', '
 INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '4', 'c', '');
 INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('6', '5', 'b', '');
 INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('3', '2', 'a', '');
+*/
 
 
 
