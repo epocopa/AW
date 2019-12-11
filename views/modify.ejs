@@ -38,6 +38,16 @@
     </form>
     <% if (typeof errorMsg != "undefined") { %>
         <h3 class="error_msg"><%= errorMsg %></h3>
-    <% } %>
+	<% } %>
+	<% if (errores.length>0) {%>
+	<div class="error_msg caja_errores">
+		<h3>La información introducida en el formulario es incorrecta</h3>
+		<ul>
+			<% errores.forEach(function(error) { %>
+				<li><%= error.msg %></li>
+			<% }); %>
+		</ul>
+	</div>
+	<%}%>
 </main>
 <%- include('footer'); -%>

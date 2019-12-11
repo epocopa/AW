@@ -129,7 +129,7 @@ router.get("/modify", redirectLogin, function(req, res) {
     let estilos = '<link rel="stylesheet" href="/stylesheets/register.css">';
 
     res.status(200);
-    res.render("modify", { title: "modify", user: req.session.currentUser, styles: estilos });
+    res.render("modify", { title: "modify", user: req.session.currentUser, styles: estilos, errores: 0 });
 });
 
 router.post("/modify", multerFactory.single("photo"), redirectLogin, function(req, res, next) {
@@ -140,33 +140,43 @@ router.post("/modify", multerFactory.single("photo"), redirectLogin, function(re
 		console.log(`Nombre del fichero: ${req.file.filename}`);
 		nombreFichero = req.file.filename;
     }
-    
-    bcrypt.compare(req.body.password, req.session.currentUser.pass, function(err, result) {
-		if(err){
-			next(createError(500));
-		}else{
-			if (!result) {
-				res.status(401);
-				res.render("modify", { title: "login", user: req.session.currentUser, errorMsg: "Email y/o contraseña no válidos", styles: estilos });
-			} else {
-				req.session.currentUser.email = req.body.email || req.session.currentUser.email;
-				req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
-				req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
-				req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
-				req.session.currentUser.image = nombreFichero || req.session.currentUser.image;
-    
-                console.log(nombreFichero);
-                
-				daoUsers.modificarUsuario(req.session.currentUser, function(err) {
-					if (err) {
-						next(createError(500));
+	
+	req.checkBody("password", "La contraseña no es válida").isLength({ min: 4, max: 10 });
+	req.checkBody("email", "Dirección de correo no válida").isEmail();
+	req.checkBody("fullname","Nombre de usuario no válido").matches(/^[A-Z0-9]+$/i);
+
+	req.getValidationResult().then(function(result) {
+		if (result.isEmpty()) {
+			bcrypt.compare(req.body.password, req.session.currentUser.pass, function(err, result) {
+				if(err){
+					next(createError(500));
+				}else{
+					if (!result) {
+						res.status(401);
+						res.render("modify", { title: "login", user: req.session.currentUser, errorMsg: "Email y/o contraseña no válidos", styles: estilos });
 					} else {
-						res.redirect("profile");
+						req.session.currentUser.email = req.body.email || req.session.currentUser.email;
+						req.session.currentUser.fullname = req.body.fullname || req.session.currentUser.fullname;
+						req.session.currentUser.sex = req.body.sex || req.session.currentUser.sex;
+						req.session.currentUser.birthdate = req.body.birthdate || req.session.currentUser.birthdate;
+						req.session.currentUser.image = nombreFichero || req.session.currentUser.image;
+			
+						console.log(nombreFichero);
+						
+						daoUsers.modificarUsuario(req.session.currentUser, function(err) {
+							if (err) {
+								next(createError(500));
+							} else {
+								res.redirect("profile");
+							}
+						});
 					}
-				});
-			}
+				}
+			});
+		} else {
+			res.render("modify", { title: "modify", user: req.session.currentUser, errores: result.array(), styles: estilos });
 		}
-    });
+	});
 });
 
 router.get("/profile", redirectLogin, function(req, res) {
