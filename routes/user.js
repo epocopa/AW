@@ -305,6 +305,7 @@ router.post("/profile/image", multerFactory.single("image"), redirectLogin, func
 		if (err) {
             next(createError(500));
         } else {
+			req.session.currentUser.points = req.session.currentUser.points - 100;
             res.redirect("/user/profile");
         }	
 	});

@@ -318,8 +318,8 @@ class DAOUsers {
 					if (err) {
 						callback(err);
 					} else {
-						const sql2 = "UPDATE user SET points = ? - 100 WHERE id_user = ?";
-						connection.query(sql2, [user.points, user.id_user], function(err){
+						const sql2 = "UPDATE user SET points = points - 100 WHERE id_user = ?";
+						connection.query(sql2, [user.id_user], function(err){
 							connection.release();
 							if(err){
 								callback(err);

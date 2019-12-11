@@ -134,10 +134,14 @@ router.post('/guess/:question/:user', userRouter.redirectLogin, function (req, r
 		answer: req.body.ans
 	}
 
-	daoQuestions.responderPorOtro(answer, function (err) {
+	daoQuestions.responderPorOtro(answer, function (err, result) {
 		if (err) {
 			next(createError(500));
 		} else {
+			if(result){
+				req.session.currentUser.points += 50;
+			}
+
 			res.status(200);
 			res.redirect("/question/question/" + req.params.question);
 		}

@@ -171,11 +171,22 @@ class DAOQuestions {
                             answer.answer,
                             answer.correct
                         ], function (err) {
-                            connection.release();
                             if (err) {
                                 callback(err);
                             } else {
-                                callback(null);
+								if(answer.correct){
+									const sql2 = "UPDATE user SET points = points + 50 WHERE id_user = ?";
+									connection.query(sql2, [answer.userGuess], function(err){
+										connection.release();
+										if(err){
+											callback(err);
+										}else{
+											callback(null, true);
+										}
+									});
+								}else{
+									callback(null, false);
+								}
                             }
                         });
                     }
