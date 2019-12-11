@@ -304,21 +304,25 @@ router.post('/request_friend', redirectLogin, function(req, res, next) {
 router.post("/profile/image", multerFactory.single("image"), redirectLogin, function (req, res, next) {
 	let nombreFichero = null;
 
-	if (req.file) {
-		console.log(`Nombre del fichero: ${req.file.filename}`);
-		nombreFichero = req.file.filename;
-	}
-	
-	req.checkBody("description", "La descripcion tiene un maximo de 140 caracteres").isLength({ min: 0, max: 140 });
-	
-	daoUsers.insertarImagen(req.session.currentUser, nombreFichero, req.body.description, function(err) {
-		if (err) {
-            next(createError(500));
-        } else {
-			req.session.currentUser.points = req.session.currentUser.points - 100;
-            res.redirect("/user/profile");
-        }	
-	});
+    if(req.session.currentUser.points >= 100){
+        if (req.file) {
+            console.log(`Nombre del fichero: ${req.file.filename}`);
+            nombreFichero = req.file.filename;
+        }
+        
+        req.checkBody("description", "La descripcion tiene un maximo de 140 caracteres").isLength({ min: 0, max: 140 });
+        
+        daoUsers.insertarImagen(req.session.currentUser, nombreFichero, req.body.description, function(err) {
+            if (err) {
+                next(createError(500));
+            } else {
+                req.session.currentUser.points -= 100;
+                res.redirect("/user/profile");
+            }	
+        });
+    }else{
+        res.redirect("/user/profile");
+    }
 });
 
 module.exports = { router, pool, redirectLogin };
