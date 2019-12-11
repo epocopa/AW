@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS aw;
+
+CREATE DATABASE aw;
+
+USE aw;
+
 CREATE OR REPLACE TABLE user(
 	id_user INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	email VARCHAR(50) UNIQUE,
@@ -101,13 +107,12 @@ INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALU
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('7', '¿Cuántos viajes hizo Cristóbal Colón a las Indias?', 'Tres', 'Dos', 'Cuatro', 'Diez');
 INSERT INTO `question` (`id_question`, `title`, `opA`, `opB`, `opC`, `opD`) VALUES ('8', '¿Cuántas veces parpadea una persona por semana?', '25k veces', '10k veces', '4k veces', '13k veces');
 
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '1', 'a', NULL);
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '2', 'a', NULL);
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '3', 'b', NULL);
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '4', 'c', NULL);
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('6', '5', 'b', NULL);
-INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('3', '2', 'a', NULL);
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '1', 'a', '');
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '2', 'a', '');
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '3', 'b', '');
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('1', '4', 'c', '');
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('6', '5', 'b', '');
+INSERT INTO `answer` (`question`, `user`, `answer`, `other`) VALUES ('3', '2', 'a', '');
 
 
--- SELECT fullname, image, id_user, correct FROM answer a JOIN user u ON u.id_user = a.user LEFT JOIN answerForOther o ON (id_user = o.user AND a.question = o.question) WHERE a.question = 1 AND a.user IN(SELECT userb FROM friend WHERE usera = 1)  //LA BUENA
 

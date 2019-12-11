@@ -117,8 +117,38 @@ router.get('/guess/:question/:user', userRouter.redirectLogin, function(req, res
 				if (err){
 					next(createError(500));
 				} else {
-					res.status(200);
-					res.render("answerOther", { title: "answerOther", styles: estilos, user: req.session.currentUser, question: result1, friend: result2[0] });
+					daoQuestions.leerRespuestas(req.params.question, req.params.user, function(err, result3){
+						if(err){
+							next(createError(500));
+						}else{
+							res.status(200);
+
+							let answers = [];
+
+							if(result3.other != ''){
+								answers.push(result1.opA);
+								answers.push(result1.opB);
+								answers.push(result1.opC);
+								answers.push(result3.other);
+
+								let j, x;
+
+								for(let i = 3; i > 0; i--){
+									j = Math.floor(Math.random()* (i+1));
+									x = answers[i];
+									answers[i] = answers[j];
+									answers[j] = x;									
+								}
+
+								result1.opA = answers.pop();
+								result1.opB = answers.pop();
+								result1.opC = answers.pop();
+								result1.opD = answers.pop();
+							}
+
+							res.render("answerOther", { title: "answerOther", styles: estilos, user: req.session.currentUser, question: result1, friend: result2[0] });
+						}
+					});
 				}
 			});
 		}

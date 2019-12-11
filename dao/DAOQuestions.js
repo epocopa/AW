@@ -63,6 +63,24 @@ class DAOQuestions {
             }
         });
 	}
+
+    leerRespuestas(question, user, callback){
+        this.pool.getConnection(function(err, connection){
+            if(err){
+                callback(err);
+            }else{
+                const sql = "SELECT answer, other FROM answer WHERE question = ? AND user = ?";
+                connection.query(sql, [question, user], function(err, result){
+					connection.release();
+                    if(err){
+                        callback(err);
+                    }else{
+                        callback(null, result[0]);
+                    }
+                });
+            }
+        });
+	}
 	
 	contestarPregunta(answer, callback){
 		this.pool.getConnection(function(err, connection){
